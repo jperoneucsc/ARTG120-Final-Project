@@ -1,3 +1,19 @@
-ARTG 120 Final Project:
+ARTG 120 Final Project by
 
-In progress by 
+A work in progress, everything is subject to change.
+
+File contents:
+
+- phaser.js
+    The phaser engine, a general purpose framework for 2D videogame in JS.
+
+- platformer.js
+    A small framework dedicated to basic platformers, defines scene
+    movement/transitions, collisions, work in progress.
+
+- game.js
+    The main game script, contains one specific platforming game using
+    the phaser.js and platformer.js frameworks.
+
+- index.html
+    Html file, displays the game on the browser.
