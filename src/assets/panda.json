@@ -1,0 +1,164 @@
+{"frames": [
+
+{
+	"filename": "panda_01_die_01.png",
+	"frame": {"x":0,"y":0,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_die_02.png",
+	"frame": {"x":255,"y":0,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_die_03.png",
+	"frame": {"x":510,"y":0,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_die_04.png",
+	"frame": {"x":765,"y":0,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_die_05.png",
+	"frame": {"x":0,"y":235,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_die_06.png",
+	"frame": {"x":255,"y":235,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_run_01.png",
+	"frame": {"x":510,"y":235,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_run_02.png",
+	"frame": {"x":765,"y":235,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_run_03.png",
+	"frame": {"x":0,"y":470,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_run_04.png",
+	"frame": {"x":255,"y":470,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_run_05.png",
+	"frame": {"x":510,"y":470,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_01.png",
+	"frame": {"x":765,"y":470,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_02.png",
+	"frame": {"x":0,"y":705,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_03.png",
+	"frame": {"x":255,"y":705,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_04.png",
+	"frame": {"x":510,"y":705,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_05.png",
+	"frame": {"x":765,"y":705,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_06.png",
+	"frame": {"x":0,"y":940,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_07.png",
+	"frame": {"x":255,"y":940,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+},
+{
+	"filename": "panda_01_walk_08.png",
+	"frame": {"x":510,"y":940,"w":255,"h":235},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":235},
+	"sourceSize": {"w":255,"h":235}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "panda.png",
+	"format": "RGBA8888",
+	"size": {"w":1020,"h":1175},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1f60eb8d01265e37fb8df308f94bf513:0a84a5be4ff44924498f7faabb2f834e:d0e9f6f256a5168b1e6e5deae6efca28$"
+}
+}
