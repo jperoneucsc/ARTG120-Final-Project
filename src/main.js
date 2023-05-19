@@ -1,6 +1,3 @@
-import { Scene1 } from "./scenes/game.js";
-
-
 let config ={
     type: Phaser.AUTO,
     width: 1280,
