@@ -1,7 +1,7 @@
 import { Scene1 } from "./scenes/game.js";
 
 
-let game = new Phaser.Game({
+let config ={
     type: Phaser.AUTO,
     width: 1280,
     height: 720,
@@ -12,4 +12,6 @@ let game = new Phaser.Game({
         }
     },
     scene: [Scene1]
-});
+};
+
+let game = new Phaser.Game(config);

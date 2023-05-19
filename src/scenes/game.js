@@ -7,13 +7,13 @@ export class Scene1 extends Phaser.Scene {
     preload()
     {
         // Load panda sprite sheet
-        this.load.atlas('panda1', 'assets/panda.png', 'assets/panda.json');
+        this.load.atlas('panda1', '/src/assets/panda.png', '/src/assets/panda.json');
 
         // Load background
-        this.load.image("background", "assets/forestBackground.png");
+        this.load.image("background", "/src/assets/forestBackground.png");
 
         // Load ground
-        this.load.image("ground", "assets/forestFloor.png")
+        this.load.image("ground", "/src/assets/forestFloor.png")
 
 
     }
@@ -71,7 +71,7 @@ export class Scene1 extends Phaser.Scene {
         })
 
         // Instantiate sprites + background + foreground ---------------------------------------
-        
+
         // get background
         let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
 
