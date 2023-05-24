@@ -1,3 +1,5 @@
+// TEST SCENE FOR PROTOTYPING MOVEMENT
+
 class Scene1 extends Phaser.Scene {
     constructor()
     {
