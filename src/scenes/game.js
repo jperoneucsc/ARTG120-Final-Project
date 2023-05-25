@@ -9,13 +9,13 @@ class Scene1 extends Phaser.Scene {
     preload()
     {
         // Load panda sprite sheet
-        this.load.atlas('panda1', './src/assets/panda.png', './src/assets/panda.json');
+        this.load.atlas('panda1', '../src/assets/panda.png', '../src/assets/panda.json');
 
         // Load background
-        this.load.image("background", "./src/assets/forestBackground.png");
+        this.load.image("background", "../src/assets/forestBackground.png");
 
         // Load ground
-        this.load.image("ground", "./src/assets/forestFloor.png")
+        this.load.image("ground", "../src/assets/forestFloor.png")
 
 
     }
