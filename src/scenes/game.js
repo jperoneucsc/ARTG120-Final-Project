@@ -9,13 +9,13 @@ class Scene1 extends Phaser.Scene {
     preload()
     {
         // Load panda sprite sheet
-        this.load.atlas('panda1', '..assets/panda.png', '..assets/panda.json');
+        this.load.atlas('panda1', '/src/assets/panda.png', 'src/assets/panda.json');
 
         // Load background
-        this.load.image("background", "..src/assets/forestBackground.png");
+        this.load.image("background", "/src/assets/YinMountainFull.png");
 
         // Load ground
-        this.load.image("ground", "ARTG120-FINAL-PROJECT/src/assets/forestFloor.png")
+        this.load.image("ground", "/src/assets/forestFloor.png")
 
 
     }
@@ -75,7 +75,10 @@ class Scene1 extends Phaser.Scene {
         // Instantiate sprites + background + foreground ---------------------------------------
 
         // get background
+        //let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
         let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
+        //background1.setScale(2);
+        //background1.setScale(2);
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
@@ -92,15 +95,16 @@ class Scene1 extends Phaser.Scene {
     {  
         // -------------------------------- PLAYER MOVEMENT ---------------------------------------
         const cursors = this.input.keyboard.createCursorKeys();
+        const keys = this.input.keyboard.addKeys("W,A,S,D,SPACE");
 
         // Check is player is able to jump
-        if(!cursors.up.isDown && this.player.body.touching.down){
+        if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
             this.player.allowedToJump = true;
         }
 
         // Check if player is pressing left or right, with shift or not
         if(!this.player.body.touching.down){this.player.anims.play("player-jump", false)};
-        if (cursors.left.isDown){
+        if (cursors.left.isDown || keys.A.isDown){
             if(cursors.shift.isDown){    // player is running
                 if(this.player.scaleX <= 0){
                     this.player.scaleX = this.player.scaleX * -1;
@@ -115,7 +119,7 @@ class Scene1 extends Phaser.Scene {
                 this.player.anims.play("player-walk", true);
             }
             
-        }else if (cursors.right.isDown){
+        }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
                 if(this.player.scaleX >= 0){
                     this.player.scaleX = this.player.scaleX * -1;
@@ -135,7 +139,7 @@ class Scene1 extends Phaser.Scene {
         }
 
         // Check if player is trying to jump
-        if(cursors.up.isDown && this.player.body.touching.down && this.player.allowedToJump){
+        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && this.player.body.touching.down && this.player.allowedToJump){
             if (this.player.body.velocity.x == 0){
                 this.player.anims.play("player-jump");
             }
