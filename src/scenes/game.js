@@ -100,6 +100,7 @@ class Scene1 extends Phaser.Scene {
         // Check is player is able to jump
         if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
             this.player.allowedToJump = true;
+            this.player.allowedToDoubleJump = true;
         }
 
         // Check if player is pressing left or right, with shift or not
@@ -145,8 +146,17 @@ class Scene1 extends Phaser.Scene {
             }
             this.player.setVelocityY(-600);
             this.player.allowedToJump = false;
+            
         }
 
+        // Check if player is trying to double jump
+        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && this.player.allowedToDoubleJump){
+            if (this.player.body.velocity.x == 0){
+                this.player.anims.play("player-jump");
+            }
+            this.player.setVelocityY(-600);
+            this.player.allowedToDoubleJump = false;
+        }
         
     }
 }
