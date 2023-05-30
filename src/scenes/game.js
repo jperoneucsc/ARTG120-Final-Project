@@ -100,9 +100,8 @@ class Scene1 extends Phaser.Scene {
         // Check is player is able to jump
         if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
             this.player.allowedToJump = true;
-            this.player.allowedToDoubleJump = true;
+            this.player.allowedToDoubleJump = false;
         }
-
         // Check if player is pressing left or right, with shift or not
         if(!this.player.body.touching.down){this.player.anims.play("player-jump", false)};
         if (cursors.left.isDown || keys.A.isDown){
@@ -140,24 +139,32 @@ class Scene1 extends Phaser.Scene {
         }
 
         // Check if player is trying to jump
-        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && this.player.body.touching.down && this.player.allowedToJump){
-            if (this.player.body.velocity.x == 0){
-                this.player.anims.play("player-jump");
+        if(Phaser.Input.Keyboard.JustDown(cursors.up)){
+            if(this.player.body.touching.down){
+                if (this.player.body.velocity.x == 0){
+                    this.player.anims.play("player-jump");
+                }
+                this.player.setVelocityY(-300);
+                this.player.allowedToDoubleJump = true;
             }
-            this.player.setVelocityY(-600);
-            this.player.allowedToJump = false;
-            
-        }
+            else {
+                if(this.player.allowedToDoubleJump == true){
+                    this.player.allowedToDoubleJump = false;
+                    this.player.setVelocityY(-300);
+                }
+            }
 
-        // Check if player is trying to double jump
-        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && this.player.allowedToDoubleJump){
-            if (this.player.body.velocity.x == 0){
-                this.player.anims.play("player-jump");
             }
-            this.player.setVelocityY(-600);
+        }
+/*
+        // Check if player is trying to double jump
+        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && Phaser.Input.Keyboard.JustDown(cursors.up)){
+            this.player.anims.play("player-jump");
+            this.player.setVelocityY(-300);
             this.player.allowedToDoubleJump = false;
         }
         
     }
+    */
 }
     
