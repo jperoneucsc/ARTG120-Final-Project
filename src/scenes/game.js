@@ -51,7 +51,7 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-run',
-            frameRate: 8,
+            frameRate: 4,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
                 end: 2,
@@ -62,10 +62,21 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-jump',
-            frameRate: 1,
+            frameRate: 60,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 2,
-                end: 4,
+                end: 3,
+                prefix: 'LightBearJump-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'player-inair',
+            frameRate: 6,
+            frames: this.anims.generateFrameNames('LightBear', {
+                start: 3,
+                end: 3,
                 prefix: 'LightBearJump-0',
                 suffix: '.png'
             }),
@@ -82,10 +93,11 @@ class Scene1 extends Phaser.Scene {
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
-        platforms.create(width*0.5, height * .95, "ground").setScale(1);
+        platforms.create(width*0.5, height * .99, "ground").setScale(1);
 
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.28).setSize(200,430).play('player-idle');
+        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,430).play('player-idle');
+
         // Add collider between panda and platforms
         this.physics.add.collider(this.player, platforms);
     }
@@ -98,24 +110,25 @@ class Scene1 extends Phaser.Scene {
 
         // Check is player is able to jump
         if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
-            this.player.allowedToJump = true;
             this.player.allowedToDoubleJump = false;
         }
+
+        // If player is in the air play inair anim
+        if(!this.player.body.touching.down && (cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown)){this.player.anims.play("player-inair", false)};
         // Check if player is pressing left or right, with shift or not
-        if(!this.player.body.touching.down){this.player.anims.play("player-jump", false)};
         if (cursors.left.isDown || keys.A.isDown){
             if(cursors.shift.isDown){    // player is running
                 if(this.player.scaleX >= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(-240);
-                this.player.anims.play("player-run", true);
+                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(-160);
-                this.player.anims.play("player-walk", true);
+                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
             }
             
         }else if (cursors.right.isDown || keys.D.isDown){
@@ -124,46 +137,35 @@ class Scene1 extends Phaser.Scene {
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(240);
-                this.player.anims.play("player-run", true);
+                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX <= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(160);
-                this.player.anims.play("player-walk", true);
+                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
             }
         }else{      // no key is being pressed
             this.player.setVelocityX(0);
-            this.player.anims.play("player-idle", true);
+            if(!this.player.body.touching.down){
+                this.player.anims.play("player-inair", true);
+            }else this.player.anims.play("player-idle", true);
         }
 
         // Check if player is trying to jump
-        if(Phaser.Input.Keyboard.JustDown(cursors.up)){
+        if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
             if(this.player.body.touching.down){
-                if (this.player.body.velocity.x == 0){
-                    this.player.anims.play("player-jump");
-                }
-                this.player.setVelocityY(-300);
+                this.player.anims.play("player-jump");
+                this.player.setVelocityY(-400);
                 this.player.allowedToDoubleJump = true;
             }
             else {
                 if(this.player.allowedToDoubleJump == true){
                     this.player.allowedToDoubleJump = false;
-                    this.player.setVelocityY(-300);
+                    this.player.setVelocityY(-400);
                 }
             }
-
             }
         }
-/*
-        // Check if player is trying to double jump
-        if((cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown) && Phaser.Input.Keyboard.JustDown(cursors.up)){
-            this.player.anims.play("player-jump");
-            this.player.setVelocityY(-300);
-            this.player.allowedToDoubleJump = false;
-        }
-        
-    }
-    */
 }
     
