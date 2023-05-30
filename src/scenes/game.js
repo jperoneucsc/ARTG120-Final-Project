@@ -9,7 +9,7 @@ class Scene1 extends Phaser.Scene {
     preload()
     {
         // Load panda sprite sheet
-        this.load.atlas('panda1', 'src/assets/panda.png', 'src/assets/panda.json');
+        this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
         // Load background
         this.load.image("background", "src/assets/YinMountainFull.png");
@@ -30,32 +30,32 @@ class Scene1 extends Phaser.Scene {
         this.anims.create({
             key: 'player-idle',
             frameRate: 2,
-            frames: this.anims.generateFrameNames('panda1', {
+            frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
-                end: 4,
-                prefix: 'panda_01_idle_0',
+                end: 2,
+                prefix: 'LightBearIdle-0',
                 suffix: '.png'
             }),
             repeat: -1
         })
         this.anims.create({
             key: 'player-walk',
-            frameRate: 10,
-            frames: this.anims.generateFrameNames('panda1', {
-                start: 1,
-                end: 8,
-                prefix: 'panda_01_walk_0',
+            frameRate: 6,
+            frames: this.anims.generateFrameNames('LightBear', {
+                start: 2,
+                end: 6,
+                prefix: 'LightBearWalk-0',
                 suffix: '.png'
             }),
             repeat: -1
         })
         this.anims.create({
             key: 'player-run',
-            frameRate: 10,
-            frames: this.anims.generateFrameNames('panda1', {
+            frameRate: 8,
+            frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
-                end: 5,
-                prefix: 'panda_01_run_0',
+                end: 2,
+                prefix: 'LightBearRun-0',
                 suffix: '.png'
             }),
             repeat: -1
@@ -63,10 +63,10 @@ class Scene1 extends Phaser.Scene {
         this.anims.create({
             key: 'player-jump',
             frameRate: 1,
-            frames: this.anims.generateFrameNames('panda1', {
-                start: 1,
-                end: 5,
-                prefix: 'panda_01_run_0',
+            frames: this.anims.generateFrameNames('LightBear', {
+                start: 2,
+                end: 4,
+                prefix: 'LightBearJump-0',
                 suffix: '.png'
             }),
             repeat: -1
@@ -83,10 +83,9 @@ class Scene1 extends Phaser.Scene {
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
         platforms.create(width*0.5, height * .95, "ground").setScale(1);
-        platforms.create((width + width*0.5), height * .95, "ground").setScale(1).refreshBody();
 
-        // Create Panda
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'panda1').setScale(0.3).play('player-idle');
+        // Create Bear
+        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.28).setSize(200,430).play('player-idle');
         // Add collider between panda and platforms
         this.physics.add.collider(this.player, platforms);
     }
@@ -106,13 +105,13 @@ class Scene1 extends Phaser.Scene {
         if(!this.player.body.touching.down){this.player.anims.play("player-jump", false)};
         if (cursors.left.isDown || keys.A.isDown){
             if(cursors.shift.isDown){    // player is running
-                if(this.player.scaleX <= 0){
+                if(this.player.scaleX >= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(-240);
                 this.player.anims.play("player-run", true);
             }else{      // player is walking
-                if(this.player.scaleX <= 0){
+                if(this.player.scaleX >= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(-160);
@@ -121,13 +120,13 @@ class Scene1 extends Phaser.Scene {
             
         }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
-                if(this.player.scaleX >= 0){
+                if(this.player.scaleX <= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(240);
                 this.player.anims.play("player-run", true);
             }else{      // player is walking
-                if(this.player.scaleX >= 0){
+                if(this.player.scaleX <= 0){
                     this.player.scaleX = this.player.scaleX * -1;
                 }
                 this.player.setVelocityX(160);
