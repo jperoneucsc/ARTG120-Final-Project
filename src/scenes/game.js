@@ -107,8 +107,8 @@ class Scene1 extends Phaser.Scene {
         let background1 = this.add.image(800, 0, 'background').setScrollFactor(0.03);
 
         // get foreground mountains
-        let background3 = this.add.image(-50, 25, 'background3').setOrigin(0,0).setScrollFactor(0.04);
-        let background2 = this.add.image(0, 120, 'background2').setOrigin(0,0).setScrollFactor(0.05);
+        let background3 = this.add.image(-50, 25, 'background3').setOrigin(0,0).setScrollFactor(0.05);
+        let background2 = this.add.image(0, 120, 'background2').setOrigin(0,0).setScrollFactor(0.07);
 
 
 
@@ -117,10 +117,11 @@ class Scene1 extends Phaser.Scene {
         platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
         platforms.create(100, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
+        platforms.create(100, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
 
 
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,530).play('player-idle');
+        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
 
         // Add camera movement
         this.camera = this.cameras.main;
@@ -165,7 +166,7 @@ class Scene1 extends Phaser.Scene {
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
-                this.player.setVelocityX(-260);
+                this.player.setVelocityX(-270);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
@@ -180,7 +181,7 @@ class Scene1 extends Phaser.Scene {
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
-                this.player.setVelocityX(260);
+                this.player.setVelocityX(270);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.flipX == true){
