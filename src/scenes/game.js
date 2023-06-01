@@ -62,14 +62,14 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-jump',
-            frameRate: 60,
+            frameRate: 5,
             frames: this.anims.generateFrameNames('LightBear', {
-                start: 2,
+                start: 1,
                 end: 2,
                 prefix: 'LightBearJump-0',
                 suffix: '.png'
             }),
-            repeat: -1
+            repeat: 0
         })
         this.anims.create({
             key: 'player-inair',
@@ -82,6 +82,18 @@ class Scene1 extends Phaser.Scene {
             }),
             repeat: -1
         })
+        this.anims.create({
+            key: 'player-strike',
+            frameRate: 6,
+            frames: this.anims.generateFrameNames('LightBear', {
+                start: 1,
+                end: 2,
+                prefix: 'LightBearStrike-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+
 
         // Instantiate sprites + background + foreground ---------------------------------------
 
@@ -106,11 +118,21 @@ class Scene1 extends Phaser.Scene {
     {  
         // -------------------------------- PLAYER MOVEMENT ---------------------------------------
         const cursors = this.input.keyboard.createCursorKeys();
-        const keys = this.input.keyboard.addKeys("W,A,S,D,SPACE");
+        const keys = this.input.keyboard.addKeys("W,A,S,D,E,SPACE");
 
         // Check is player is able to jump
         if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
             this.player.allowedToDoubleJump = false;
+        }
+
+
+        // Check if player is trying to strike
+        if(Phaser.Input.Keyboard.JustDown(keys.E)){
+            // currently animations will interfere with eachother and not play properly
+            // until this is fixed the strike animation will not work
+            // this.player.anims.play("player-strike");
+
+            // Insert code for breaking walls and stuff here
         }
 
         // Check if player is pressing left or right, with shift or not
@@ -120,7 +142,6 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(-260);
-                //this.player.setSize(200,400);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
@@ -136,7 +157,6 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = false;
                 }
                 this.player.setVelocityX(260);
-                //this.player.setSize(200,400);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.flipX == true){
@@ -166,7 +186,7 @@ class Scene1 extends Phaser.Scene {
                     this.player.setVelocityY(-400);
                 }
             }
-            }
         }
+    }
 }
     
