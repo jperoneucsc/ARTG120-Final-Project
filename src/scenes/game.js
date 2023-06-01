@@ -13,12 +13,14 @@ class Scene1 extends Phaser.Scene {
 
         // Load background
         this.load.image("background", "src/assets/YinMountainFull.png");
-        this.load.image("background2", "src/assets/YinMountainForeground.png")
-        this.load.image("background3", "src/assets/YinMountainForeground2.png")
+        this.load.image("background2", "src/assets/YinMountainForeground.png");
+        this.load.image("background3", "src/assets/YinMountainForeground2.png");
 
         // Load ground
-        this.load.image("ground", "src/assets/forestFloor.png")
+        this.load.image("ground", "src/assets/forestFloor.png");
 
+        // load nextscene temp asset
+        this.load.image("nextScene", "src/assets/nextScene.png");
 
 
     }
@@ -136,7 +138,11 @@ class Scene1 extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         // Add scene changer in the bottom right corner
-        let nextScene = this.add.circle(1800, 980, 50, 0xFFFFFF)
+        this.nextScene = this.physics.add.sprite(1800, 980, 'nextScene');
+        this.nextScene.body.setAllowGravity(false);
+        this.physics.add.collider(this.player, this.nextScene, () => {
+            this.scene.start("scene2");
+        });
     }
     
     update()
@@ -156,7 +162,7 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
-
+            // this.game.scene.start('scene2'); // for debugging scene transition
             // Insert code for breaking walls and stuff here
         }
 
@@ -167,6 +173,7 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(-270);
+                this.scene.start('Scene2');
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
