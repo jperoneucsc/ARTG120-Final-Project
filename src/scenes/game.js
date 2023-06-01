@@ -13,22 +13,18 @@ class Scene1 extends Phaser.Scene {
 
         // Load background
         this.load.image("background", "src/assets/YinMountainFull.png");
+        this.load.image("background2", "src/assets/YinMountainForeground.png")
+        this.load.image("background3", "src/assets/YinMountainForeground2.png")
 
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png")
+
 
 
     }
 
     create()
     {
-        // get the screen width + height
-        const width = this.scale.width;
-        const height = this.scale.height;
-
-        const sceneWidth = 1920;
-        const sceneHeight = 1080;
-
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'player-idle',
@@ -97,19 +93,30 @@ class Scene1 extends Phaser.Scene {
             repeat: -1
         })
 
+        // Get the screen width + height
+        const width = this.scale.width;
+        const height = this.scale.height;
 
-        // Instantiate sprites + background + foreground ---------------------------------------
+        const sceneWidth = 1920;
+        const sceneHeight = 1080;
+
+
+        // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
-        //let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
-        let background1 = this.add.image(sceneWidth*.5, sceneHeight*.5, 'background');
-        //background1.setScale(2);
-        //background1.setScale(2);
+        let background1 = this.add.image(800, 0, 'background').setScrollFactor(0.03);
+
+        // get foreground mountains
+        let background3 = this.add.image(-50, 25, 'background3').setOrigin(0,0).setScrollFactor(0.04);
+        let background2 = this.add.image(0, 120, 'background2').setOrigin(0,0).setScrollFactor(0.05);
+
+
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
-        platforms.create(width*.5, 1080, "ground").setScale(1).setSize(1280,40);   // first floor
-        platforms.create(width, 1080, "ground").setScale(1).setSize(1280,40); 
+        platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
+        platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
+        platforms.create(100, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
 
 
         // Create Bear
@@ -120,12 +127,15 @@ class Scene1 extends Phaser.Scene {
         this.camera.startFollow(this.player);
 
         // Set camera and world bounds
-        this.camera.setBounds(0,0, 1920, 1080);
-        this.physics.world.setBounds(0,0, 1920, 1080);
+        this.camera.setBounds(0,0, sceneWidth, sceneHeight);
+        this.physics.world.setBounds(0,0, sceneWidth, sceneHeight);
 
         // Add collider between bear and platforms and world bounds
         this.physics.add.collider(this.player, platforms);
         this.player.setCollideWorldBounds(true);
+
+        // Add scene changer in the bottom right corner
+        let nextScene = this.add.circle(1800, 980, 50, 0xFFFFFF)
     }
     
     update()
