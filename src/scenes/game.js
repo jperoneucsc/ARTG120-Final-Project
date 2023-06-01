@@ -32,7 +32,7 @@ class Scene1 extends Phaser.Scene {
             frameRate: 2,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
-                end: 2,
+                end: 7,
                 prefix: 'LightBearIdle-0',
                 suffix: '.png'
             }),
@@ -40,7 +40,7 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-walk',
-            frameRate: 6,
+            frameRate: 7,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 2,
                 end: 6,
@@ -51,7 +51,7 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-run',
-            frameRate: 4,
+            frameRate: 8,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
                 end: 2,
@@ -65,7 +65,7 @@ class Scene1 extends Phaser.Scene {
             frameRate: 60,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 2,
-                end: 3,
+                end: 2,
                 prefix: 'LightBearJump-0',
                 suffix: '.png'
             }),
@@ -75,8 +75,8 @@ class Scene1 extends Phaser.Scene {
             key: 'player-inair',
             frameRate: 6,
             frames: this.anims.generateFrameNames('LightBear', {
-                start: 3,
-                end: 3,
+                start: 2,
+                end: 2,
                 prefix: 'LightBearJump-0',
                 suffix: '.png'
             }),
@@ -93,10 +93,10 @@ class Scene1 extends Phaser.Scene {
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
-        platforms.create(width*0.5, height * .99, "ground").setScale(1);
+        platforms.create(width*0.5, height * .95, "ground").setScale(1).setSize(1280,40);
 
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,430).play('player-idle');
+        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,530).play('player-idle');
 
         // Add collider between panda and platforms
         this.physics.add.collider(this.player, platforms);
@@ -113,19 +113,18 @@ class Scene1 extends Phaser.Scene {
             this.player.allowedToDoubleJump = false;
         }
 
-        // If player is in the air play inair anim
-        if(!this.player.body.touching.down && (cursors.up.isDown || keys.W.isDown || keys.SPACE.isDown)){this.player.anims.play("player-inair", false)};
         // Check if player is pressing left or right, with shift or not
         if (cursors.left.isDown || keys.A.isDown){
             if(cursors.shift.isDown){    // player is running
                 if(this.player.scaleX >= 0){
-                    this.player.scaleX = this.player.scaleX * -1;
+                    this.player.flipX = true;
                 }
-                this.player.setVelocityX(-240);
+                this.player.setVelocityX(-260);
+                //this.player.setSize(200,400);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
-                    this.player.scaleX = this.player.scaleX * -1;
+                    this.player.flipX = true;
                 }
                 this.player.setVelocityX(-160);
                 if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
@@ -133,30 +132,32 @@ class Scene1 extends Phaser.Scene {
             
         }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
-                if(this.player.scaleX <= 0){
-                    this.player.scaleX = this.player.scaleX * -1;
+                if(this.player.flipX == true){
+                    this.player.flipX = false;
                 }
-                this.player.setVelocityX(240);
+                this.player.setVelocityX(260);
+                //this.player.setSize(200,400);
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
-                if(this.player.scaleX <= 0){
-                    this.player.scaleX = this.player.scaleX * -1;
+                if(this.player.flipX == true){
+                    this.player.flipX = false;
                 }
                 this.player.setVelocityX(160);
                 if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
             }
         }else{      // no key is being pressed
             this.player.setVelocityX(0);
-            if(!this.player.body.touching.down){
-                this.player.anims.play("player-inair", true);
-            }else this.player.anims.play("player-idle", true);
+            if(this.player.body.velocity.y > 1000){
+                this.player.anims.play(player-inair);
+            }
+            this.player.anims.play("player-idle", true);
         }
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
             if(this.player.body.touching.down){
-                this.player.anims.play("player-jump");
                 this.player.setVelocityY(-400);
+                this.player.anims.play("player-jump");
                 this.player.allowedToDoubleJump = true;
             }
             else {
