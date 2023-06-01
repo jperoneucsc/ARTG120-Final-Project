@@ -26,6 +26,9 @@ class Scene1 extends Phaser.Scene {
         const width = this.scale.width;
         const height = this.scale.height;
 
+        const sceneWidth = 1920;
+        const sceneHeight = 1080;
+
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'player-idle',
@@ -99,19 +102,30 @@ class Scene1 extends Phaser.Scene {
 
         // get background
         //let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
-        let background1 = this.add.image(width * 0.5, height * 0.5, 'background');
+        let background1 = this.add.image(sceneWidth*.5, sceneHeight*.5, 'background');
         //background1.setScale(2);
         //background1.setScale(2);
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
-        platforms.create(width*0.5, height * .95, "ground").setScale(1).setSize(1280,40);
+        platforms.create(width*.5, 1080, "ground").setScale(1).setSize(1280,40);   // first floor
+        platforms.create(width, 1080, "ground").setScale(1).setSize(1280,40); 
+
 
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,530).play('player-idle');
 
-        // Add collider between panda and platforms
+        // Add camera movement
+        this.camera = this.cameras.main;
+        this.camera.startFollow(this.player);
+
+        // Set camera and world bounds
+        this.camera.setBounds(0,0, 1920, 1080);
+        this.physics.world.setBounds(0,0, 1920, 1080);
+
+        // Add collider between bear and platforms and world bounds
         this.physics.add.collider(this.player, platforms);
+        this.player.setCollideWorldBounds(true);
     }
     
     update()
@@ -130,7 +144,7 @@ class Scene1 extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keys.E)){
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
-            // this.player.anims.play("player-strike");
+            this.player.anims.play("player-strike");
 
             // Insert code for breaking walls and stuff here
         }
@@ -167,8 +181,8 @@ class Scene1 extends Phaser.Scene {
             }
         }else{      // no key is being pressed
             this.player.setVelocityX(0);
-            if(this.player.body.velocity.y > 1000){
-                this.player.anims.play(player-inair);
+            if(this.player.body.velocity.y > 100){
+                this.player.anims.play('player-inair');
             }
             this.player.anims.play("player-idle", true);
         }
@@ -176,14 +190,14 @@ class Scene1 extends Phaser.Scene {
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
             if(this.player.body.touching.down){
-                this.player.setVelocityY(-400);
+                this.player.setVelocityY(-700);
                 this.player.anims.play("player-jump");
                 this.player.allowedToDoubleJump = true;
             }
             else {
                 if(this.player.allowedToDoubleJump == true){
                     this.player.allowedToDoubleJump = false;
-                    this.player.setVelocityY(-400);
+                    this.player.setVelocityY(-800);
                 }
             }
         }
