@@ -1,6 +1,8 @@
 // Second Scene
 // Dark Bear tutorial level
 
+// Currently in prototype stage
+
 class Scene2 extends Phaser.Scene {
     constructor()
     {
@@ -13,7 +15,10 @@ class Scene2 extends Phaser.Scene {
         this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
         // Load background
-        this.load.image("backgroundyang", "src/assets/YangMountainFull.png");
+        this.load.image("yangSky", "src/assets/YangSky.png")
+        this.load.image("backgroundYang", "src/assets/YangMountainFull.png");
+        this.load.image("backgroundYang2", "src/assets/YangMountainForeground.png");
+        this.load.image("backgroundYang3", "src/assets/YangMountainForeground2.png");
 
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png")
@@ -33,9 +38,12 @@ class Scene2 extends Phaser.Scene {
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
-        let background1 = this.add.image(sceneWidth*.5, sceneHeight*.5, 'backgroundyang');
+        let background1 = this.add.image(500, 470, 'backgroundYang').setScrollFactor(0.02);
 
-
+        let yangSky = this.add.image(800, 400, "yangSky").setScrollFactor(0).setScale(.7);
+        // get foreground mountains
+        let background3 = this.add.image(-100, 25, 'backgroundYang3').setOrigin(0,0).setScrollFactor(0.03);
+        let background2 = this.add.image(0, 100, 'backgroundYang2').setOrigin(0,0).setScrollFactor(0.04);
 
 
         // Create platforms to walk on
@@ -79,6 +87,7 @@ class Scene2 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
+            this.scene.start("Scene1"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
         }
 

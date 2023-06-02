@@ -12,6 +12,7 @@ class Scene1 extends Phaser.Scene {
         this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
         // Load background
+        this.load.image("sky", "src/assets/YinSky.png")
         this.load.image("background", "src/assets/YinMountainFull.png");
         this.load.image("background2", "src/assets/YinMountainForeground.png");
         this.load.image("background3", "src/assets/YinMountainForeground2.png");
@@ -108,13 +109,11 @@ class Scene1 extends Phaser.Scene {
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
-        let background1 = this.add.image(500, 450, 'background').setScrollFactor(0.03);
-
+        let background1 = this.add.image(500, 470, 'background').setScrollFactor(0.02);
+        let sky = this.add.image(800, 400, "sky").setScrollFactor(0).setScale(.7);
         // get foreground mountains
-        let background3 = this.add.image(-50, 25, 'background3').setOrigin(0,0).setScrollFactor(0.05);
-        let background2 = this.add.image(0, 120, 'background2').setOrigin(0,0).setScrollFactor(0.07);
-
-
+        let background3 = this.add.image(-100, 25, 'background3').setOrigin(0,0).setScrollFactor(0.03);
+        let background2 = this.add.image(0, 100, 'background2').setOrigin(0,0).setScrollFactor(0.04);
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
@@ -168,6 +167,7 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
+            this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
         }
 
