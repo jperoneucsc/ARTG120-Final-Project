@@ -166,7 +166,7 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
-            this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
+            // this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
         }
 
