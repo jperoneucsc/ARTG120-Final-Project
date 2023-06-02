@@ -143,7 +143,10 @@ class Scene2 extends Phaser.Scene {
         // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
             console.log("Collision. this.scene.start(Scene2);");
-            this.scene.start("Scene1");
+            this.camera.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.scene.start("Scene1");
+            })
         });
     }
 

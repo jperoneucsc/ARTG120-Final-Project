@@ -125,7 +125,7 @@ class Scene1 extends Phaser.Scene {
 
         // Add scene changer in the bottom right corner
         this.nextScene = this.physics.add.sprite(100, 450, 'nextScene').setSize(20,20);
-        this.nextScene.body.setAllowGravity(false);
+        this.nextScene.body.setAllowGravity(false).setImmovable(true);
         
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
@@ -145,7 +145,10 @@ class Scene1 extends Phaser.Scene {
         // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
             console.log("Collision. this.scene.start(Scene2);");
-            this.scene.start("Scene2");
+            this.camera.fadeOut(1000, 0, 0, 0);
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.scene.start("Scene2");
+            })
         });
     }
     
