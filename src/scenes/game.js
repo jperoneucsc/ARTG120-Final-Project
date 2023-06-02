@@ -128,7 +128,7 @@ class Scene1 extends Phaser.Scene {
         this.nextScene.body.setAllowGravity(false);
         
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
+        this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
 
         // Add camera movement
         this.camera = this.cameras.main;
