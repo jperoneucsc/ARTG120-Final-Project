@@ -12,7 +12,7 @@ class Scene2 extends Phaser.Scene {
     preload()
     {
         // Load panda sprite sheet
-        this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
+        this.load.atlas('DarkBear', 'src/assets/DarkBear.png', 'src/assets/DarkBear.json');
 
         // Load background
         this.load.image("yangSky", "src/assets/YangSky.png")
@@ -27,6 +27,74 @@ class Scene2 extends Phaser.Scene {
     create()
     {
         console.log("Scene2 Starting");
+        // Create dark bear animations ------------------------------------------------
+        this.anims.create({
+            key: 'dark-idle',
+            frameRate: 3,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 1,
+                end: 8,
+                prefix: 'DarkBearIdle-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'dark-walk',
+            frameRate: 7,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 2,
+                end: 6,
+                prefix: 'DarkBearWalk-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'dark-run',
+            frameRate: 8,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 1,
+                end: 3,
+                prefix: 'DarkBearRun-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'dark-jump',
+            frameRate: 6,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 1,
+                end: 2,
+                prefix: 'DarkBearJump-0',
+                suffix: '.png'
+            }),
+            repeat: 0
+        })
+        this.anims.create({
+            key: 'dark-inair',
+            frameRate: 6,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 2,
+                end: 2,
+                prefix: 'DarkBearJump-0',
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'dark-dash',
+            frameRate: 16,
+            frames: this.anims.generateFrameNames('DarkBear', {
+                start: 1,
+                end: 4,
+                prefix: 'DarkBearDash-0',
+                suffix: '.png'
+            }),
+            repeat: 0
+        })
+
         // Get the screen width + height
         const width = this.scale.width;
         const height = this.scale.height;
@@ -50,12 +118,15 @@ class Scene2 extends Phaser.Scene {
         const platforms = this.physics.add.staticGroup();
         platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
-        platforms.create(100, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(100, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
+        //platforms.create(width*.95, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
+        platforms.create(width*.5, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
 
+        // next scene temp asset
+        this.nextScene = this.physics.add.sprite(sceneWidth*.9, sceneHeight*.9, 'nextScene').setSize(20,20);
+        this.nextScene.body.setAllowGravity(false);
 
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
+        this.player = this.physics.add.sprite(sceneWidth * 0.8, sceneHeight * 0.9, 'DarkBear').setScale(0.27).setSize(200,490).play('dark-idle');
 
         // Add camera movement
         this.camera = this.cameras.main;
@@ -69,6 +140,11 @@ class Scene2 extends Phaser.Scene {
         this.physics.add.collider(this.player, platforms);
         this.player.setCollideWorldBounds(true);
 
+        // player collision go to next scene
+        this.physics.add.collider(this.player, this.nextScene, () => {
+            console.log("Collision. this.scene.start(Scene2);");
+            this.scene.start("Scene1");
+        });
     }
 
     update()
@@ -83,57 +159,65 @@ class Scene2 extends Phaser.Scene {
         }
 
 
-        if(Phaser.Input.Keyboard.JustDown(keys.E)){
-            // currently animations will interfere with eachother and not play properly
-            // until this is fixed the strike animation will not work
-            this.player.anims.play("player-strike");
-            this.scene.start("Scene1"); // for scene debugging pressing e will switch scenes
-            // Insert code for breaking walls and stuff here
-        }
-
         // Check if player is pressing left or right, with shift or not
         if (cursors.left.isDown || keys.A.isDown){
             if(cursors.shift.isDown){    // player is running
-                if(this.player.scaleX >= 0){
-                    this.player.flipX = true;
+                if(this.player.flipX == true){
+                    this.player.flipX = false;
                 }
                 this.player.setVelocityX(-270);
-                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
+                if(this.player.body.touching.down){this.player.anims.play("dark-run", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E)){
+                    this.player.anims.play("dark-dash");
+                    this.player.setVelocityX(-10070);
+                }
             }else{      // player is walking
-                if(this.player.scaleX >= 0){
-                    this.player.flipX = true;
+                if(this.player.flipX == true){
+                    this.player.flipX = false;
                 }
                 this.player.setVelocityX(-160);
-                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
+                if(this.player.body.touching.down){this.player.anims.play("dark-walk", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E)){
+                    this.player.anims.play("dark-dash");
+                    this.player.setVelocityX(-10070);
+                }
             }
             
         }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
-                if(this.player.flipX == true){
-                    this.player.flipX = false;
+                if(this.player.flipX == false){
+                    this.player.flipX = true;
                 }
                 this.player.setVelocityX(270);
-                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
+                if(this.player.body.touching.down){this.player.anims.play("dark-run", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E)){
+                    this.player.anims.play("dark-dash");
+                    this.player.setVelocityX(10070);
+                }
             }else{      // player is walking
-                if(this.player.flipX == true){
-                    this.player.flipX = false;
+                if(this.player.flipX == false){
+                    this.player.flipX = true;
                 }
                 this.player.setVelocityX(160);
-                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
+                if(this.player.body.touching.down){this.player.anims.play("dark-walk", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E)){
+                    this.player.anims.play("dark-dash");
+                    this.player.setVelocityX(10070);
+                }
             }
         }else{      // no key is being pressed
             this.player.setVelocityX(0);
             if(this.player.body.velocity.y > 100){
-                this.player.anims.play('player-inair');
+                this.player.anims.play('dark-inair');
             }
-            this.player.anims.play("player-idle", true);
+            this.player.anims.play("dark-idle", true);
         }
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
             if(this.player.body.touching.down){
                 this.player.setVelocityY(-700);
-                this.player.anims.play("player-jump");
+                this.player.anims.play("dark-jump");
                 this.player.allowedToDoubleJump = true;
             }
             else {

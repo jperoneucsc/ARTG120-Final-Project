@@ -119,13 +119,12 @@ class Scene1 extends Phaser.Scene {
         const platforms = this.physics.add.staticGroup();
         platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
-        platforms.create(100, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(100, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
-        platforms.create(1800, sceneHeight*.55, "ground").setScale(1).setSize(1280,40);
-
+        platforms.create(250, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
+        platforms.create(1800, sceneHeight*.58, "ground").setScale(1).setSize(1280,40);
+        platforms.create(1400, sceneHeight*.76, "ground").setScale(1).setSize(1280,40);
 
         // Add scene changer in the bottom right corner
-        this.nextScene = this.physics.add.sprite(1800, 980, 'nextScene').setSize(20,20);
+        this.nextScene = this.physics.add.sprite(100, 450, 'nextScene').setSize(20,20);
         this.nextScene.body.setAllowGravity(false);
         
         // Create Bear
