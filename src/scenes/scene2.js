@@ -4,7 +4,7 @@
 class Scene2 extends Phaser.Scene {
     constructor()
     {
-        super('scene2');
+        super('Scene2');
     }
 
     preload()
@@ -13,7 +13,7 @@ class Scene2 extends Phaser.Scene {
         this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
         // Load background
-        this.load.image("background", "src/assets/YangMountainFull.png");
+        this.load.image("backgroundyang", "src/assets/YangMountainFull.png");
 
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png")
@@ -21,6 +21,7 @@ class Scene2 extends Phaser.Scene {
 
     create()
     {
+        console.log("Scene2 Starting");
         // Get the screen width + height
         const width = this.scale.width;
         const height = this.scale.height;
@@ -32,7 +33,7 @@ class Scene2 extends Phaser.Scene {
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
-        let background1 = this.add.image(sceneWidth*.5, sceneHeight*.5, 'background');
+        let background1 = this.add.image(sceneWidth*.5, sceneHeight*.5, 'backgroundyang');
 
 
 
@@ -78,7 +79,6 @@ class Scene2 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
-            //this.game.scene.start('scene1');
             // Insert code for breaking walls and stuff here
         }
 
@@ -89,7 +89,6 @@ class Scene2 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(-270);
-                this.scene.start('Scene2');
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){

@@ -3,7 +3,7 @@
 class Scene1 extends Phaser.Scene {
     constructor()
     {
-        super('scene1');
+        super('Scene1');
     }
 
     preload()
@@ -21,12 +21,14 @@ class Scene1 extends Phaser.Scene {
 
         // load nextscene temp asset
         this.load.image("nextScene", "src/assets/nextScene.png");
+        // load next s
 
 
     }
 
     create()
     {
+        console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'player-idle',
@@ -106,7 +108,7 @@ class Scene1 extends Phaser.Scene {
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
-        let background1 = this.add.image(800, 0, 'background').setScrollFactor(0.03);
+        let background1 = this.add.image(500, 450, 'background').setScrollFactor(0.03);
 
         // get foreground mountains
         let background3 = this.add.image(-50, 25, 'background3').setOrigin(0,0).setScrollFactor(0.05);
@@ -120,8 +122,13 @@ class Scene1 extends Phaser.Scene {
         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
         platforms.create(100, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
         platforms.create(100, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
+        platforms.create(1800, sceneHeight*.55, "ground").setScale(1).setSize(1280,40);
 
 
+        // Add scene changer in the bottom right corner
+        this.nextScene = this.physics.add.sprite(1800, 980, 'nextScene').setSize(20,20);
+        this.nextScene.body.setAllowGravity(false);
+        
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.5, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
 
@@ -137,11 +144,10 @@ class Scene1 extends Phaser.Scene {
         this.physics.add.collider(this.player, platforms);
         this.player.setCollideWorldBounds(true);
 
-        // Add scene changer in the bottom right corner
-        this.nextScene = this.physics.add.sprite(1800, 980, 'nextScene');
-        this.nextScene.body.setAllowGravity(false);
+        // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
-            this.scene.start("scene2");
+            console.log("Collision. this.scene.start(Scene2);");
+            this.scene.start("Scene2");
         });
     }
     
@@ -162,7 +168,6 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not work
             this.player.anims.play("player-strike");
-            // this.game.scene.start('scene2'); // for debugging scene transition
             // Insert code for breaking walls and stuff here
         }
 
@@ -173,7 +178,6 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(-270);
-                this.scene.start('Scene2');
                 if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
