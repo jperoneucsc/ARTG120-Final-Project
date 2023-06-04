@@ -31,7 +31,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group{
             classType: Projectile,
             frameQuantity: 100,
             active: false,
-            visible: true,
+            visible: false,
             key: 'projectile'
         })
     }
@@ -55,7 +55,7 @@ class Scene1 extends Phaser.Scene {
 
     preload()
     {
-        this.ProjectileGroup;
+        
         // Load panda sprite sheet
         this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
@@ -75,9 +75,18 @@ class Scene1 extends Phaser.Scene {
 
         // load nextscene temp asset
         this.load.image("nextScene", "src/assets/nextScene.png");
-        // load next s
 
+        // load music and sound effects
+        this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
+        this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
+        this.load.audio('dashAudio', 'src/assets/audio/Dash.wav');
+        this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.wav');
+        this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.wav');
+        this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.wav');
+        this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
 
+        // load projectiles in
+        this.ProjectileGroup;
     }
 
     create()
@@ -152,10 +161,10 @@ class Scene1 extends Phaser.Scene {
         })
         this.anims.create({
             key: 'player-strike',
-            frameRate: 6,
+            frameRate: 9,
             frames: this.anims.generateFrameNames('LightBear', {
                 start: 1,
-                end: 2,
+                end: 4,
                 prefix: 'LightBearStrike-0',
                 suffix: '.png'
             }),
@@ -169,6 +178,11 @@ class Scene1 extends Phaser.Scene {
         const sceneWidth = 1920;
         const sceneHeight = 1080;
 
+        // --------------------------------- Instantiate sounds -----------------------------------------
+        let walkSound = this.sound.add('walkAudio');
+        walkSound.loop = true;
+        walkSound.play();
+        walkSound.stop();
 
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
@@ -202,6 +216,7 @@ class Scene1 extends Phaser.Scene {
         
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
+        this.player.isStriking = false;
 
         // Add camera movement
         this.camera = this.cameras.main;
@@ -270,12 +285,16 @@ class Scene1 extends Phaser.Scene {
 
 
         // Check if player is trying to strike
-        if(Phaser.Input.Keyboard.JustDown(keys.E)){
+        if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isStriking == false)){
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
-            this.time.delayedCall(300, () => {
+            this.player.isStriking = true;
+            this.time.delayedCall(200, () => {
                 this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
+            })
+            this.player.on('animationcomplete', () => {
+                this.player.isStriking = false;
             })
             // this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
@@ -287,37 +306,42 @@ class Scene1 extends Phaser.Scene {
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
-                this.player.setVelocityX(-270);
-                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
+                if(this.player.isStriking == false){this.player.setVelocityX(-270)}else this.player.setVelocityX(this.player.body.velocity.x + 10);
+                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
-                this.player.setVelocityX(-160);
-                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
+                if(this.player.isStriking == false){this.player.setVelocityX(-160)}else this.player.setVelocityX(this.player.body.velocity.x + 10);
+                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
-            
         }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
-                this.player.setVelocityX(270);
-                if(this.player.body.touching.down){this.player.anims.play("player-run", true);}
+                if(this.player.isStriking == false){this.player.setVelocityX(270)}else this.player.setVelocityX(this.player.body.velocity.x - 10);
+                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
-                this.player.setVelocityX(160);
-                if(this.player.body.touching.down){this.player.anims.play("player-walk", true);}
+                if(this.player.isStriking == false){this.player.setVelocityX(160)}else this.player.setVelocityX(this.player.body.velocity.x - 10);
+                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
-        }else{      // no key is being pressed
+        }
+        
+        // no key is being pressed
+        if(cursors.left.isUp && keys.A.isUp && cursors.right.isUp && keys.D.isUp && cursors.up.isUp && keys.W.isUp && keys.SPACE.isUp && this.player.isStriking == false){
+            this.player.anims.play('player-idle', true);
             this.player.setVelocityX(0);
             if(this.player.body.velocity.y > 100){
                 this.player.anims.play('player-inair');
             }
-            this.player.anims.play("player-idle", true);
         }
+
+        
+
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
