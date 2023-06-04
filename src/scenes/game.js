@@ -91,7 +91,7 @@ class Scene1 extends Phaser.Scene {
 
     create()
     {
-        console.log("Scene1 Starting");
+        // console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'projectile-flying',
@@ -185,9 +185,11 @@ class Scene1 extends Phaser.Scene {
         this.runSound = this.sound.add('runAudio', {volume : 0.2});
         this.runSound.loop = true;
 
-        this.jumpSound = this.sound.add('jumpAudio', {volume : 0.1});
-        
+        this.jumpSound = this.sound.add('jumpAudio', {volume : 0.05, detune: -400});
+
         this.strikeSound = this.sound.add('strikeAudio', {volume : 0.05});
+
+        this.wallBreakSound = this.sound.add('wallBreakAudio', {volume : 0.1});
 
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
@@ -259,6 +261,7 @@ class Scene1 extends Phaser.Scene {
         this.time.delayedCall(300, () =>
         {
         crate.setTint(0x333333);
+        this.wallBreakSound.play();
         });
         this.time.delayedCall(200, () =>
         {
