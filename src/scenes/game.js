@@ -159,7 +159,7 @@ class Scene1 extends Phaser.Scene {
                 prefix: 'LightBearStrike-0',
                 suffix: '.png'
             }),
-            repeat: -1
+            repeat: 0
         })
 
         // Get the screen width + height
@@ -274,7 +274,9 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
-            this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
+            this.time.delayedCall(300, () => {
+                this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
+            })
             // this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
         }
