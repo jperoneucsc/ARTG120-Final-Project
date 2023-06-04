@@ -1,5 +1,52 @@
 // TEST SCENE FOR PROTOTYPING MOVEMENT
 
+// Projectiles for Light Bear Group
+class Projectile extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y){
+        super(scene, x, y, 'projectile');
+    }
+
+    fire(flipx, x,y){
+        this.play('projectile-flying');
+        this.body.setAllowGravity(false);
+        this.setActive(true);
+        this.setVisible(true);
+        if(flipx == true){
+            this.body.reset(x-50,y);
+            this.setVelocityX(-550);
+        }
+        if(flipx == false){
+            this.body.reset(x+50,y);
+            this.setVelocityX(550);
+        }
+    }
+}
+
+
+class ProjectileGroup extends Phaser.Physics.Arcade.Group{
+    constructor(scene){
+        super(scene.physics.world, scene);
+
+        this.createMultiple({
+            classType: Projectile,
+            frameQuantity: 100,
+            active: false,
+            visible: true,
+            key: 'projectile'
+        })
+    }
+
+    fireProjectile(flipx, x, y){
+        const projectile = this.getFirstDead(false);
+        if (projectile){
+            projectile.fire(flipx, x,y-32);
+        }
+    }
+}
+
+
+
+
 class Scene1 extends Phaser.Scene {
     constructor()
     {
@@ -8,6 +55,7 @@ class Scene1 extends Phaser.Scene {
 
     preload()
     {
+        this.ProjectileGroup;
         // Load panda sprite sheet
         this.load.atlas('LightBear', 'src/assets/LightBear.png', 'src/assets/LightBear.json');
 
@@ -20,6 +68,11 @@ class Scene1 extends Phaser.Scene {
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png");
 
+        // load crate asset
+        this.load.image("crate", "src/assets/crate.png")
+        // load projectile asset
+        this.load.atlas("projectile", "src/assets/projectile.png", "src/assets/projectile.json");
+
         // load nextscene temp asset
         this.load.image("nextScene", "src/assets/nextScene.png");
         // load next s
@@ -31,6 +84,17 @@ class Scene1 extends Phaser.Scene {
     {
         console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
+        this.anims.create({
+            key: 'projectile-flying',
+            framerate: 4,
+            frames: this.anims.generateFrameNames('projectile', {
+                start: 1,
+                end: 4,
+                prefix:"ball",
+                suffix: '.png'
+            }),
+            repeat: -1
+        })
         this.anims.create({
             key: 'player-idle',
             frameRate: 2,
@@ -123,9 +187,18 @@ class Scene1 extends Phaser.Scene {
         platforms.create(1800, sceneHeight*.58, "ground").setScale(1).setSize(1280,40);
         platforms.create(1400, sceneHeight*.76, "ground").setScale(1).setSize(1280,40);
 
+        // create crate group
+
+        const crates = this.physics.add.staticGroup();
+
         // Add scene changer in the bottom right corner
         this.nextScene = this.physics.add.sprite(100, 450, 'nextScene').setSize(20,20);
         this.nextScene.body.setAllowGravity(false).setImmovable(true);
+
+        // add crates
+        crates.create(1500,510, "crate").setImmovable(true);
+        crates.create(1500,315, "crate").setImmovable(true);
+
         
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
@@ -138,9 +211,17 @@ class Scene1 extends Phaser.Scene {
         this.camera.setBounds(0,0, sceneWidth, sceneHeight);
         this.physics.world.setBounds(0,0, sceneWidth, sceneHeight);
 
+        // add projectiles
+        this.ProjectileGroup = new ProjectileGroup(this);
+        this.physics.add.overlap(this.ProjectileGroup, crates, this.hitCrate, null, this);
+
+
         // Add collider between bear and platforms and world bounds
         this.physics.add.collider(this.player, platforms);
+        this.physics.add.collider(this.player, crates);
+        this.physics.add.collider(crates, platforms);
         this.player.setCollideWorldBounds(true);
+
 
         // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
@@ -151,6 +232,30 @@ class Scene1 extends Phaser.Scene {
             })
         });
     }
+
+    hitCrate(projectile, crate){
+        projectile.destroy();
+        crate.setTint(0x666666);
+        this.time.delayedCall(300, () =>
+        {
+        crate.setTint(0x333333);
+        });
+        this.time.delayedCall(200, () =>
+        {
+            crate.destroy();
+        });
+    }
+    
+    addEvents(){
+        this.input.on('pointerdown', pointer => {
+            // shoot projectile
+            console.log("GSDF");
+            this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
+        });
+    }
+
+
+
     
     update()
     {  
@@ -167,8 +272,9 @@ class Scene1 extends Phaser.Scene {
         // Check if player is trying to strike
         if(Phaser.Input.Keyboard.JustDown(keys.E)){
             // currently animations will interfere with eachother and not play properly
-            // until this is fixed the strike animation will not work
+            // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
+            this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
             // this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
             // Insert code for breaking walls and stuff here
         }

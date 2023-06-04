@@ -123,7 +123,7 @@ class Scene2 extends Phaser.Scene {
 
         // next scene temp asset
         this.nextScene = this.physics.add.sprite(sceneWidth*.9, sceneHeight*.9, 'nextScene').setSize(20,20);
-        this.nextScene.body.setAllowGravity(false);
+        this.nextScene.body.setAllowGravity(false).setImmovable(true);
 
         // Create Bear
         this.player = this.physics.add.sprite(sceneWidth * 0.6, sceneHeight * 0.9, 'DarkBear').setScale(0.27).setSize(200,490).play('dark-idle');
