@@ -77,6 +77,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image("nextScene", "src/assets/nextScene.png");
 
         // load music and sound effects
+        this.load.audio('firstSong', 'src/assets/audio/ScaryThingsOriginal.mp3')
         this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
         this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
@@ -179,6 +180,10 @@ class Scene1 extends Phaser.Scene {
         const sceneHeight = 1080;
 
         // --------------------------------- Instantiate sounds -----------------------------------------
+        this.firstSong = this.sound.add('firstSong', {volume: 0.1});
+        this.firstSong.loop = true;
+        this.firstSong.play();
+
         this.walkSound = this.sound.add('walkAudio', {volume : 0.2});
         this.walkSound.loop = true;
 
@@ -224,6 +229,7 @@ class Scene1 extends Phaser.Scene {
         // Create Bear
         this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
         this.player.isStriking = false;
+        this.player.isOnGround = true;
 
         // Add camera movement
         this.camera = this.cameras.main;
@@ -239,7 +245,9 @@ class Scene1 extends Phaser.Scene {
 
 
         // Add collider between bear and platforms and world bounds
-        this.physics.add.collider(this.player, platforms);
+        this.physics.add.collider(this.player, platforms, () => {
+            console.log("bruh");
+        });
         this.physics.add.collider(this.player, crates);
         this.physics.add.collider(crates, platforms);
         this.player.setCollideWorldBounds(true);
@@ -250,6 +258,7 @@ class Scene1 extends Phaser.Scene {
             console.log("Collision. this.scene.start(Scene2);");
             this.camera.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.firstSong.stop();
                 this.scene.start("Scene2");
             })
         });
@@ -268,16 +277,6 @@ class Scene1 extends Phaser.Scene {
             crate.destroy();
         });
     }
-    
-    addEvents(){
-        this.input.on('pointerdown', pointer => {
-            // shoot projectile
-            console.log("GSDF");
-            this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
-        });
-    }
-
-
 
     
     update()
@@ -286,11 +285,15 @@ class Scene1 extends Phaser.Scene {
         const cursors = this.input.keyboard.createCursorKeys();
         const keys = this.input.keyboard.addKeys("W,A,S,D,E,SPACE");
 
+        // Checkif player is touching the ground
+        if(this.player.body.touching.down){
+            this.player.isOnGround = true;
+        }else this.player.isOnGround = false;
+
         // Check is player is able to jump
-        if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
+        if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.isOnGround){
             this.player.allowedToDoubleJump = false;
         }
-
 
         // Check if player is trying to strike
         if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isStriking == false)){
@@ -316,13 +319,13 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 if(this.player.isStriking == false){this.player.setVelocityX(-270)}else this.player.setVelocityX(this.player.body.velocity.x + 5);
-                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
+                if(this.player.isOnGround && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
                 if(this.player.isStriking == false){this.player.setVelocityX(-160)}else this.player.setVelocityX(this.player.body.velocity.x + 5);
-                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
+                if(this.player.isOnGround && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
         }else if (cursors.right.isDown || keys.D.isDown){
             if(cursors.shift.isDown){    // player is running
@@ -330,13 +333,13 @@ class Scene1 extends Phaser.Scene {
                     this.player.flipX = false;
                 }
                 if(this.player.isStriking == false){this.player.setVelocityX(270)}else this.player.setVelocityX(this.player.body.velocity.x - 5);
-                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
+                if(this.player.isOnGround && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
                 if(this.player.isStriking == false){this.player.setVelocityX(160)}else this.player.setVelocityX(this.player.body.velocity.x - 5);
-                if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
+                if(this.player.isOnGround && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
         }
         
@@ -344,7 +347,7 @@ class Scene1 extends Phaser.Scene {
         if(cursors.left.isUp && keys.A.isUp && cursors.right.isUp && keys.D.isUp && cursors.up.isUp && keys.W.isUp && keys.SPACE.isUp && this.player.isStriking == false){
             this.player.anims.play('player-idle', true);
             this.player.setVelocityX(0);
-            if(this.player.body.velocity.y > 100){
+            if(this.player.body.velocity.y > 0){
                 this.player.anims.play('player-inair');
             }
         }
@@ -374,7 +377,7 @@ class Scene1 extends Phaser.Scene {
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
-            if(this.player.body.touching.down){
+            if(this.player.isOnGround){
                 this.player.setVelocityY(-700);
                 this.player.anims.play("player-jump");
                 this.jumpSound.play();
