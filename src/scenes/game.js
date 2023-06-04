@@ -82,7 +82,7 @@ class Scene1 extends Phaser.Scene {
         this.load.audio('dashAudio', 'src/assets/audio/Dash.wav');
         this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.wav');
         this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.wav');
-        this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.wav');
+        this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.mp3');
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
 
         // load projectiles in
@@ -181,8 +181,8 @@ class Scene1 extends Phaser.Scene {
         // --------------------------------- Instantiate sounds -----------------------------------------
         let walkSound = this.sound.add('walkAudio');
         walkSound.loop = true;
-        walkSound.play();
-        walkSound.stop();
+        
+        this.strikeSound = this.sound.add('strikeAudio', {volume : 0.1});
 
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
@@ -290,6 +290,7 @@ class Scene1 extends Phaser.Scene {
             // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
             this.player.isStriking = true;
+            this.strikeSound.play();
             this.time.delayedCall(200, () => {
                 this.ProjectileGroup.fireProjectile(this.player.flipX, this.player.x, this.player.y);
             })
