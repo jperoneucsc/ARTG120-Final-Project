@@ -197,7 +197,7 @@ class Scene1 extends Phaser.Scene {
 
         // add crates
         crates.create(1500,510, "crate").setImmovable(true);
-        crates.create(1500,315, "crate").setImmovable(true);
+        crates.create(1500,320, "crate").setImmovable(true);
 
         
         // Create Bear
