@@ -77,7 +77,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image("nextScene", "src/assets/nextScene.png");
 
         // load music and sound effects
-        this.load.audio('firstSong', 'src/assets/audio/ScaryThingsOriginal.mp3')
+        this.load.audio('firstSceneSong', 'src/assets/audio/ScaryThingsOriginal.mp3')
         this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
         this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
@@ -180,7 +180,7 @@ class Scene1 extends Phaser.Scene {
         const sceneHeight = 1080;
 
         // --------------------------------- Instantiate sounds -----------------------------------------
-        this.firstSong = this.sound.add('firstSong', {volume: 0.1});
+        this.firstSong = this.sound.add('firstSceneSong', {volume: 0.1});
         this.firstSong.loop = true;
         this.firstSong.play();
 
@@ -245,9 +245,7 @@ class Scene1 extends Phaser.Scene {
 
 
         // Add collider between bear and platforms and world bounds
-        this.physics.add.collider(this.player, platforms, () => {
-            console.log("bruh");
-        });
+        this.physics.add.collider(this.player, platforms);
         this.physics.add.collider(this.player, crates);
         this.physics.add.collider(crates, platforms);
         this.player.setCollideWorldBounds(true);
@@ -266,6 +264,7 @@ class Scene1 extends Phaser.Scene {
 
     hitCrate(projectile, crate){
         projectile.destroy();
+        this.camera.shake(200, 0.02);
         crate.setTint(0x666666);
         this.time.delayedCall(300, () =>
         {
@@ -300,6 +299,7 @@ class Scene1 extends Phaser.Scene {
             // currently animations will interfere with eachother and not play properly
             // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
+            this.camera.shake(100, 0.001);
             this.player.isStriking = true;
             this.strikeSound.play();
             this.time.delayedCall(200, () => {
