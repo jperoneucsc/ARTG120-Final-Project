@@ -1,0 +1,92 @@
+{"frames": [
+
+{
+	"filename": "FUSION-1.png",
+	"frame": {"x":0,"y":0,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-2.png",
+	"frame": {"x":1122,"y":0,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-3.png",
+	"frame": {"x":2244,"y":0,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-4.png",
+	"frame": {"x":0,"y":701,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-5.png",
+	"frame": {"x":1122,"y":701,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-6.png",
+	"frame": {"x":2244,"y":701,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-7.png",
+	"frame": {"x":0,"y":1402,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-8.png",
+	"frame": {"x":1122,"y":1402,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-9.png",
+	"frame": {"x":2244,"y":1402,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+},
+{
+	"filename": "FUSION-10.png",
+	"frame": {"x":0,"y":2103,"w":1122,"h":701},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1122,"h":701},
+	"sourceSize": {"w":1122,"h":701}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "pandaFusion.png",
+	"format": "RGBA8888",
+	"size": {"w":3366,"h":2804},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:aa19b112bb703773dadd3df95a51f654:a574e33f5f2eafd5027da9c8f148ffba:ea3d7e43e24dc3533dd36d3d57a609bb$"
+}
+}
