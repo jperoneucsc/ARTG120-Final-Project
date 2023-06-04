@@ -79,9 +79,9 @@ class Scene1 extends Phaser.Scene {
         // load music and sound effects
         this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
         this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
-        this.load.audio('dashAudio', 'src/assets/audio/Dash.wav');
-        this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.wav');
-        this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.wav');
+        this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
+        this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.mp3');
+        this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.mp3');
         this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.mp3');
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
 
@@ -179,10 +179,15 @@ class Scene1 extends Phaser.Scene {
         const sceneHeight = 1080;
 
         // --------------------------------- Instantiate sounds -----------------------------------------
-        let walkSound = this.sound.add('walkAudio');
-        walkSound.loop = true;
+        this.walkSound = this.sound.add('walkAudio', {volume : 0.2});
+        this.walkSound.loop = true;
+
+        this.runSound = this.sound.add('runAudio', {volume : 0.2});
+        this.runSound.loop = true;
+
+        this.jumpSound = this.sound.add('jumpAudio', {volume : 0.1});
         
-        this.strikeSound = this.sound.add('strikeAudio', {volume : 0.1});
+        this.strikeSound = this.sound.add('strikeAudio', {volume : 0.05});
 
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
@@ -307,13 +312,13 @@ class Scene1 extends Phaser.Scene {
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
-                if(this.player.isStriking == false){this.player.setVelocityX(-270)}else this.player.setVelocityX(this.player.body.velocity.x + 10);
+                if(this.player.isStriking == false){this.player.setVelocityX(-270)}else this.player.setVelocityX(this.player.body.velocity.x + 5);
                 if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.scaleX >= 0){
                     this.player.flipX = true;
                 }
-                if(this.player.isStriking == false){this.player.setVelocityX(-160)}else this.player.setVelocityX(this.player.body.velocity.x + 10);
+                if(this.player.isStriking == false){this.player.setVelocityX(-160)}else this.player.setVelocityX(this.player.body.velocity.x + 5);
                 if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
         }else if (cursors.right.isDown || keys.D.isDown){
@@ -321,13 +326,13 @@ class Scene1 extends Phaser.Scene {
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
-                if(this.player.isStriking == false){this.player.setVelocityX(270)}else this.player.setVelocityX(this.player.body.velocity.x - 10);
+                if(this.player.isStriking == false){this.player.setVelocityX(270)}else this.player.setVelocityX(this.player.body.velocity.x - 5);
                 if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-run", true);}
             }else{      // player is walking
                 if(this.player.flipX == true){
                     this.player.flipX = false;
                 }
-                if(this.player.isStriking == false){this.player.setVelocityX(160)}else this.player.setVelocityX(this.player.body.velocity.x - 10);
+                if(this.player.isStriking == false){this.player.setVelocityX(160)}else this.player.setVelocityX(this.player.body.velocity.x - 5);
                 if(this.player.body.touching.down && this.player.isStriking == false){this.player.anims.play("player-walk", true);}
             }
         }
@@ -341,20 +346,42 @@ class Scene1 extends Phaser.Scene {
             }
         }
 
-        
 
+        // play sound effects
+        this.player.on('animationstart', () => {
+            if (this.player.anims.currentAnim.key == 'player-walk'){
+                this.walkSound.play();
+            }
+            if (this.player.anims.currentAnim.key == 'player-run'){
+                this.runSound.play();
+            }
+        });
+        this.player.on('animationstop', () => {
+            if (this.player.anims.currentAnim.key == 'player-walk'){
+                this.time.delayedCall(200, () => {
+                    this.walkSound.stop();
+                })
+            }
+            if (this.player.anims.currentAnim.key == 'player-run'){
+                this.time.delayedCall(200, () => {
+                    this.runSound.stop();
+                })
+            }
+        });
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
             if(this.player.body.touching.down){
                 this.player.setVelocityY(-700);
                 this.player.anims.play("player-jump");
+                this.jumpSound.play();
                 this.player.allowedToDoubleJump = true;
             }
             else {
                 if(this.player.allowedToDoubleJump == true){
                     this.player.allowedToDoubleJump = false;
                     this.player.setVelocityY(-800);
+                    this.jumpSound.play();
                 }
             }
         }
