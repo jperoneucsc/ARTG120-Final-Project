@@ -20,6 +20,16 @@ class Scene2 extends Phaser.Scene {
         this.load.image("backgroundYang2", "src/assets/YangMountainForeground.png");
         this.load.image("backgroundYang3", "src/assets/YangMountainForeground2.png");
 
+        // load music and sound effects
+        this.load.audio('secondSong', 'src/assets/audio/ScaryThingsModified.mp3')
+        this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
+        this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
+        this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
+        this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.mp3');
+        this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.mp3');
+        this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.mp3');
+        this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
+
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png")
     }
@@ -102,7 +112,23 @@ class Scene2 extends Phaser.Scene {
         const sceneWidth = 1920;
         const sceneHeight = 1080;
 
+        // --------------------------------- Instantiate sounds -----------------------------------------
+        this.secondSong = this.sound.add('secondSong', {volume: 0.1});
+        this.secondSong.loop = true;
+        this.secondSong.play();
 
+        this.walkSound = this.sound.add('walkAudio', {volume : 0.2});
+        this.walkSound.loop = true;
+
+        this.runSound = this.sound.add('runAudio', {volume : 0.2});
+        this.runSound.loop = true;
+
+        this.jumpSound = this.sound.add('jumpAudio', {volume : 0.05, detune: -400});
+
+        this.strikeSound = this.sound.add('strikeAudio', {volume : 0.05});
+
+        this.wallBreakSound = this.sound.add('wallBreakAudio', {volume : 0.1});
+        
         // ------------------------ Instantiate sprites + background + foreground -------------------------
 
         // get background
