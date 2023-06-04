@@ -42,7 +42,7 @@
 },
 {
 	"filename": "LightBearIdle-06.png",
-	"frame": {"x":0,"y":532,"w":354,"h":532},
+	"frame": {"x":1770,"y":0,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -50,7 +50,7 @@
 },
 {
 	"filename": "LightBearIdle-07.png",
-	"frame": {"x":354,"y":532,"w":354,"h":532},
+	"frame": {"x":2124,"y":0,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -58,7 +58,7 @@
 },
 {
 	"filename": "LightBearJump-01.png",
-	"frame": {"x":708,"y":532,"w":354,"h":532},
+	"frame": {"x":2478,"y":0,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -66,7 +66,7 @@
 },
 {
 	"filename": "LightBearJump-02.png",
-	"frame": {"x":1062,"y":532,"w":354,"h":532},
+	"frame": {"x":2832,"y":0,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "LightBearJump-03.png",
-	"frame": {"x":1416,"y":532,"w":387,"h":500},
+	"frame": {"x":3186,"y":0,"w":387,"h":500},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":387,"h":500},
@@ -82,7 +82,7 @@
 },
 {
 	"filename": "LightBearRun-01.png",
-	"frame": {"x":0,"y":1064,"w":354,"h":532},
+	"frame": {"x":3573,"y":0,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -90,7 +90,7 @@
 },
 {
 	"filename": "LightBearRun-02.png",
-	"frame": {"x":354,"y":1064,"w":354,"h":532},
+	"frame": {"x":0,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -98,7 +98,7 @@
 },
 {
 	"filename": "LightBearStrike-01.png",
-	"frame": {"x":708,"y":1064,"w":354,"h":532},
+	"frame": {"x":354,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -106,7 +106,23 @@
 },
 {
 	"filename": "LightBearStrike-02.png",
-	"frame": {"x":1062,"y":1064,"w":354,"h":532},
+	"frame": {"x":708,"y":532,"w":354,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
+	"sourceSize": {"w":354,"h":532}
+},
+{
+	"filename": "LightBearStrike-03.png",
+	"frame": {"x":1062,"y":532,"w":354,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
+	"sourceSize": {"w":354,"h":532}
+},
+{
+	"filename": "LightBearStrike-04.png",
+	"frame": {"x":1416,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -114,7 +130,7 @@
 },
 {
 	"filename": "LightBearWalk-01.png",
-	"frame": {"x":1416,"y":1064,"w":354,"h":532},
+	"frame": {"x":1770,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -122,7 +138,7 @@
 },
 {
 	"filename": "LightBearWalk-02.png",
-	"frame": {"x":0,"y":1596,"w":354,"h":532},
+	"frame": {"x":2124,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -130,7 +146,7 @@
 },
 {
 	"filename": "LightBearWalk-03.png",
-	"frame": {"x":354,"y":1596,"w":354,"h":532},
+	"frame": {"x":2478,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -138,7 +154,7 @@
 },
 {
 	"filename": "LightBearWalk-04.png",
-	"frame": {"x":708,"y":1596,"w":354,"h":532},
+	"frame": {"x":2832,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -146,7 +162,7 @@
 },
 {
 	"filename": "LightBearWalk-05.png",
-	"frame": {"x":1062,"y":1596,"w":354,"h":532},
+	"frame": {"x":3186,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -154,7 +170,7 @@
 },
 {
 	"filename": "LightBearWalk-06.png",
-	"frame": {"x":1416,"y":1596,"w":354,"h":532},
+	"frame": {"x":3540,"y":532,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -165,8 +181,8 @@
 	"version": "1.0",
 	"image": "LightBear.png",
 	"format": "RGBA8888",
-	"size": {"w":1803,"h":2128},
+	"size": {"w":3927,"h":1064},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f6fca6324d4ea4472894df398ce926b5:bb3992491ce954cacc7578e835ec181a:82fb711aca5aaf3fdc3c3d8b86817a45$"
+	"smartupdate": "$TexturePacker:SmartUpdate:090d6f98a1f67f3506b44b8bc5853355:270a783e634b107e4cb901774c06edc4:82fb711aca5aaf3fdc3c3d8b86817a45$"
 }
 }
