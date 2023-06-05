@@ -35,7 +35,6 @@ class Intro extends Phaser.Scene {
                 ease: 'Linear',
                 duration: 1000
             })
-            /*
             tween1.on('complete', () => {
                 this.playButton = this.add.image(640, 350, 'playButton').setOrigin(.5,.5).setInteractive();
 
@@ -73,7 +72,6 @@ class Intro extends Phaser.Scene {
             background.on('pointerover', () => {
                 this.playButton2.setScale(1);
             });
-            */
         })
 
         console.log('intro starting');
