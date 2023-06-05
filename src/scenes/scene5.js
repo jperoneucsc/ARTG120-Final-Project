@@ -1,2 +1,2 @@
 // Fifth Scene
-// Light Panda level 2
+// End cutscene/bear merge into panda
