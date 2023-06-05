@@ -12,11 +12,15 @@ class Intro extends Phaser.Scene {
         this.load.image("background", "src/assets/YinMountainFull.png");
         this.load.image('playButton', "src/assets/playButton.png")
         this.load.image('playButtonText', "src/assets/playButton2.png")
+
+        this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
     }
 
     create() {
         this.cameras.main.fadeIn(2000);
 
+        this.music = this.sound.add('endSceneMusic', {volume: 0.2});
+        this.music.play();
         let background = this.add.image(6,4.5, 'background').setInteractive();
         background.setOrigin(0,0).setScale(.66);
 
