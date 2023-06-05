@@ -30,12 +30,20 @@ class Scene2 extends Phaser.Scene {
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
 
+        // load nextscene temp asset
+        this.load.image("nextScene", "src/assets/nextScene.png");
+
         // Load ground
-        this.load.image("ground", "src/assets/forestFloor.png")
+        this.load.image("ground", "src/assets/forestFloor.png");
+        // load spikes
+        this.load.image("spikes", "src/assets/spikes.png");
+        // load platform
+        this.load.image('platform', "src/assets/platform.png");
     }
 
     create()
     {
+        this.game.sound.stopAll();
         console.log("Scene2 Starting");
         // Create dark bear animations ------------------------------------------------
         this.anims.create({
@@ -142,17 +150,35 @@ class Scene2 extends Phaser.Scene {
 
         // Create platforms to walk on
         const platforms = this.physics.add.staticGroup();
-        platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
-        platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
+        //platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
+        platforms.create(width*2, sceneHeight-30, "ground").setScale(1).setSize(1280,40); 
         //platforms.create(width*.95, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(width*.5, sceneHeight*.75, "ground").setScale(1).setSize(1280,40);
+        platforms.create(800, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
+        platforms.create(1300, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
+
+        // layer 2
+        platforms.create(1700, 750, "platform").setScale(1).setSize(500,35);
+        // layer 3
+        platforms.create(1400, 500, "platform").setScale(1).setSize(500,35);
+        // layer 4
+        platforms.create(1100, 300, "platform").setScale(1).setSize(500,35);
+
+        platforms.create(0, sceneHeight*.6, "platform").setScale(1).setSize(500,35); // end platform
+        
+
+
+
+        const deathplatforms = this.physics.add.staticGroup();
+        deathplatforms.create(820, 1100, "spikes").setScale(0.5).setSize(1920, 10);
+        deathplatforms.create(1500, 1100, "spikes").setScale(0.5).setSize(1920, 10);
+        deathplatforms.create(0, 1100, "spikes").setScale(0.5).setSize(1920, 10);
 
         // next scene temp asset
-        this.nextScene = this.physics.add.sprite(sceneWidth*.9, sceneHeight*.9, 'nextScene').setSize(20,20);
+        this.nextScene = this.physics.add.sprite(200, 550, 'nextScene').setSize(20,20);
         this.nextScene.body.setAllowGravity(false).setImmovable(true);
 
         // Create Bear
-        this.player = this.physics.add.sprite(sceneWidth * 0.6, sceneHeight * 0.9, 'DarkBear').setScale(0.27).setSize(200,490).play('dark-idle');
+        this.player = this.physics.add.sprite(2300, sceneHeight * 0.7, 'DarkBear').setScale(0.27).setSize(200,490).play('dark-idle');
         this.player.isDashing = false;
 
         // Add camera movement
@@ -160,21 +186,21 @@ class Scene2 extends Phaser.Scene {
         this.camera.startFollow(this.player);
 
         // Set camera and world bounds
-        this.camera.setBounds(0,0, sceneWidth, sceneHeight);
-        this.physics.world.setBounds(0,0, sceneWidth, sceneHeight);
+        this.camera.setBounds(0,0, 2500, 1080);
+        this.physics.world.setBounds(0,0, 2500, 1080);
 
         // Add collider between bear and platforms and world bounds
         this.physics.add.collider(this.player, platforms);
         this.player.setCollideWorldBounds(true);
 
+        this.physics.add.collider(this.player, deathplatforms, () => {
+            this.game.sound.stopAll();
+            this.scene.start("Scene2");
+        });
+
         // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
-            console.log("Collision. this.scene.start(Scene2);");
-            this.camera.fadeOut(1000, 0, 0, 0);
-            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.game.sound.stopAll();
-                this.scene.start("Scene1");
-            })
+            this.scene.start("Scene1");
         });
     }
 

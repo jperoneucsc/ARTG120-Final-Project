@@ -14,13 +14,19 @@ class Intro extends Phaser.Scene {
         this.load.image('playButtonText', "src/assets/playButton2.png")
 
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
+        this.load.audio('soundBite', 'src/assets/audio/JumpSoundEffectRetro.mp3');
     }
 
     create() {
         this.cameras.main.fadeIn(2000);
 
         this.music = this.sound.add('endSceneMusic', {volume: 0.2});
+        this.music.loop = true;
         this.music.play();
+
+        this.soundbite = this.sound.add('soundBite', {volume: 0.5, detune: -2000});
+        this.soundbite.setRate(10);
+
         let background = this.add.image(6,4.5, 'background').setInteractive();
         background.setOrigin(0,0).setScale(.66);
 
@@ -51,6 +57,7 @@ class Intro extends Phaser.Scene {
                 })
                 .on('pointerover', () => {
                     this.playButton2.setScale(0.8);
+                    this.soundbite.play();
                 })
                 
                 this.tweens.add({
