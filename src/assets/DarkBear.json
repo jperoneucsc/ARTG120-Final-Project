@@ -10,7 +10,7 @@
 },
 {
 	"filename": "DarkBearDash-02.png",
-	"frame": {"x":461,"y":2128,"w":467,"h":532},
+	"frame": {"x":885,"y":2128,"w":467,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":467,"h":532},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "DarkBearDash-03.png",
-	"frame": {"x":0,"y":2128,"w":461,"h":532},
+	"frame": {"x":424,"y":2128,"w":461,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":461,"h":532},
@@ -26,7 +26,7 @@
 },
 {
 	"filename": "DarkBearDash-04.png",
-	"frame": {"x":928,"y":2128,"w":473,"h":532},
+	"frame": {"x":1352,"y":2128,"w":473,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":473,"h":532},
@@ -106,46 +106,6 @@
 },
 {
 	"filename": "DarkBearJump-02.png",
-	"frame": {"x":1401,"y":2128,"w":507,"h":532},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":507,"h":532},
-	"sourceSize": {"w":507,"h":532}
-},
-{
-	"filename": "DarkBearJump-03.png",
-	"frame": {"x":723,"y":1596,"w":375,"h":532},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":375,"h":532},
-	"sourceSize": {"w":375,"h":532}
-},
-{
-	"filename": "DarkBearRun-01.png",
-	"frame": {"x":1098,"y":1596,"w":388,"h":532},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":388,"h":532},
-	"sourceSize": {"w":388,"h":532}
-},
-{
-	"filename": "DarkBearRun-02.png",
-	"frame": {"x":354,"y":1596,"w":369,"h":532},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":369,"h":532},
-	"sourceSize": {"w":369,"h":532}
-},
-{
-	"filename": "DarkBearRun-03.png",
-	"frame": {"x":1486,"y":1596,"w":424,"h":532},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":424,"h":532},
-	"sourceSize": {"w":424,"h":532}
-},
-{
-	"filename": "DarkBearWalk-01.png",
 	"frame": {"x":0,"y":1064,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
@@ -153,7 +113,39 @@
 	"sourceSize": {"w":354,"h":532}
 },
 {
-	"filename": "DarkBearWalk-02.png",
+	"filename": "DarkBearJump-03.png",
+	"frame": {"x":1077,"y":1596,"w":375,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":375,"h":532},
+	"sourceSize": {"w":375,"h":532}
+},
+{
+	"filename": "DarkBearRun-01.png",
+	"frame": {"x":1452,"y":1596,"w":388,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":388,"h":532},
+	"sourceSize": {"w":388,"h":532}
+},
+{
+	"filename": "DarkBearRun-02.png",
+	"frame": {"x":708,"y":1596,"w":369,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":369,"h":532},
+	"sourceSize": {"w":369,"h":532}
+},
+{
+	"filename": "DarkBearRun-03.png",
+	"frame": {"x":0,"y":2128,"w":424,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":424,"h":532},
+	"sourceSize": {"w":424,"h":532}
+},
+{
+	"filename": "DarkBearWalk-01.png",
 	"frame": {"x":354,"y":1064,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
@@ -161,7 +153,7 @@
 	"sourceSize": {"w":354,"h":532}
 },
 {
-	"filename": "DarkBearWalk-03.png",
+	"filename": "DarkBearWalk-02.png",
 	"frame": {"x":708,"y":1064,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
@@ -169,7 +161,7 @@
 	"sourceSize": {"w":354,"h":532}
 },
 {
-	"filename": "DarkBearWalk-04.png",
+	"filename": "DarkBearWalk-03.png",
 	"frame": {"x":1062,"y":1064,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
@@ -177,7 +169,7 @@
 	"sourceSize": {"w":354,"h":532}
 },
 {
-	"filename": "DarkBearWalk-05.png",
+	"filename": "DarkBearWalk-04.png",
 	"frame": {"x":1416,"y":1064,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
@@ -185,8 +177,16 @@
 	"sourceSize": {"w":354,"h":532}
 },
 {
-	"filename": "DarkBearWalk-06.png",
+	"filename": "DarkBearWalk-05.png",
 	"frame": {"x":0,"y":1596,"w":354,"h":532},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
+	"sourceSize": {"w":354,"h":532}
+},
+{
+	"filename": "DarkBearWalk-06.png",
+	"frame": {"x":354,"y":1596,"w":354,"h":532},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":532},
@@ -197,8 +197,8 @@
 	"version": "1.0",
 	"image": "DarkBear.png",
 	"format": "RGBA8888",
-	"size": {"w":1910,"h":2660},
+	"size": {"w":1840,"h":2660},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:234a56749ccc9162325e42c40ec4785b:9d46072f8f7e56bc54bff15fcbdc6ba8:bcb3cfb9df2e20bf3ad7df53e56395bf$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a8efebf37775e50ae4fdf27e7f75d255:0a058793aa2a1eb374079e962f67a536:bcb3cfb9df2e20bf3ad7df53e56395bf$"
 }
 }
