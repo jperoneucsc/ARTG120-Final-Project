@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-=======
 // Third scene
 // Light panda level 1
 
 // Third scene
 // Light panda level 2
 
->>>>>>> 361990bfb9db28d5c2d31dbd28421b019031a3ef
 
 // Projectiles for Light Bear Group
 class Projectile extends Phaser.Physics.Arcade.Sprite {
