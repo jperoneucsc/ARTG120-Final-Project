@@ -256,7 +256,7 @@ class Scene1 extends Phaser.Scene {
             console.log("Collision. this.scene.start(Scene2);");
             this.camera.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.firstSong.stop();
+                this.game.sound.stopAll();
                 this.scene.start("Scene2");
             })
         });

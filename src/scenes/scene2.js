@@ -113,7 +113,7 @@ class Scene2 extends Phaser.Scene {
         const sceneHeight = 1080;
 
         // --------------------------------- Instantiate sounds -----------------------------------------
-        this.secondSong = this.sound.add('secondSong', {volume: 0.01});
+        this.secondSong = this.sound.add('secondSong', {volume: 0.07});
         this.secondSong.loop = true;
         this.secondSong.play();
 
@@ -172,7 +172,7 @@ class Scene2 extends Phaser.Scene {
             console.log("Collision. this.scene.start(Scene2);");
             this.camera.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.secondSong.stop();
+                this.game.sound.stopAll();
                 this.scene.start("Scene1");
             })
         });
