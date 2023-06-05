@@ -2,17 +2,16 @@ ARTG 120 Final Project
 
 To test current version click the 'github-pages' link on the right
 
-A work in progress, everything is subject to change.
 
 
 File contents:
 
 - phaser.js
-    The phaser engine, a general purpose framework for 2D videogame in JS.
+    The phaser engine, a general purpose framework for 2D videogame in JS located in lib.
 
-- game.js
-    The main game script, contains one specific platforming game using
-    the phaser.js and platformer.js frameworks.
+- src
+    Contains each individual scene and the main.js file.
+    Also contains all assets
 
 - index.html
     Html file, displays the game on the browser.
