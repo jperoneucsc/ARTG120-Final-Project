@@ -1,57 +1,13 @@
 // TEST SCENE FOR PROTOTYPING MOVEMENT
 
-// Projectiles for Light Bear Group
-class Projectile extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y){
-        super(scene, x, y, 'projectile');
-    }
-
-    fire(flipx, x,y){
-        this.play('projectile-flying');
-        this.body.setAllowGravity(false);
-        this.setActive(true);
-        this.setVisible(true);
-        if(flipx == true){
-            this.body.reset(x-50,y);
-            this.setVelocityX(-550);
-        }
-        if(flipx == false){
-            this.body.reset(x+50,y);
-            this.setVelocityX(550);
-        }
-    }
-}
-
-
-class ProjectileGroup extends Phaser.Physics.Arcade.Group{
-    constructor(scene){
-        super(scene.physics.world, scene);
-
-        this.createMultiple({
-            classType: Projectile,
-            frameQuantity: 100,
-            active: false,
-            visible: false,
-            key: 'projectile'
-        })
-    }
-
-    fireProjectile(flipx, x, y){
-        const projectile = this.getFirstDead(false);
-        if (projectile){
-            projectile.fire(flipx, x,y-32);
-        }
-    }
-}
-
-
-
 
 class Scene1 extends Phaser.Scene {
     constructor()
     {
         super('Scene1');
     }
+
+    
 
     preload()
     {
@@ -67,9 +23,6 @@ class Scene1 extends Phaser.Scene {
 
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png");
-
-        // Load platform
-        this.load.image("platform", "src/assets/platform.png");
 
         // load crate asset
         this.load.image("crate", "src/assets/crate.png")
@@ -88,15 +41,10 @@ class Scene1 extends Phaser.Scene {
         this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.mp3');
         this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.mp3');
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
-
-        // load projectiles in
-        this.ProjectileGroup;
     }
 
-    create()
-    {
+    create(){
         this.game.sound.stopAll();
-        console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'projectile-flying',
@@ -209,67 +157,63 @@ class Scene1 extends Phaser.Scene {
         let background3 = this.add.image(-100, 25, 'background3').setOrigin(0,0).setScrollFactor(0.03);
         let background2 = this.add.image(0, 100, 'background2').setOrigin(0,0).setScrollFactor(0.04);
 
-        // Create platforms to walk on
-        const platforms = this.physics.add.staticGroup();
-        platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
-        platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
-        platforms.create(width*.15, sceneHeight*.7, "ground").setScale(1).setSize(1280,40);
+         // Create platforms to walk on
+         const platforms = this.physics.add.staticGroup();
+         platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
+         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
+ 
+         // create crate group
+ 
+         const crates = this.physics.add.staticGroup();
+ 
+         // Add scene changer in the bottom right corner
+         this.nextScene = this.physics.add.sprite(width+500, height+250, 'nextScene').setSize(20,20);
+         this.nextScene.body.setAllowGravity(false).setImmovable(true);
+ 
+         // add crates
+         crates.create(1500, height+200, "crate").setImmovable(true);
+         crates.create(1500, height, "crate").setImmovable(true);
+         crates.create(1500, height-200, "crate").setImmovable(true);
 
-        platforms.create(1300, sceneHeight*.8, "platform").setScale(1).setSize(500,35);
-        platforms.create(1700, sceneHeight*.6, "platform").setScale(1).setSize(500,35);
-        platforms.create(1100, sceneHeight*.4, "platform").setScale(1).setSize(500,35);
-        platforms.create(1700, sceneHeight*.2, "platform").setScale(1).setSize(500,35);
+         crates.create(500, height+350, "crate").setImmovable(true);
 
-        // create crate group
-
-        const crates = this.physics.add.staticGroup();
-
-        // Add scene changer in the bottom right corner
-        this.nextScene = this.physics.add.sprite(1700, sceneHeight*.1, 'nextScene').setSize(20,20);
-        this.nextScene.body.setAllowGravity(false).setImmovable(true);
-
-        // add crates
-        crates.create(600,925, "crate").setScale(1.25).setImmovable(true);
-        crates.create(900,925, "crate").setScale(1.25).setImmovable(true);
-        crates.create(300, 925, "crate").setImmovable(true);
-
-
-        crates.create(1700, sceneHeight*.1, "crate").setScale(0.9).setImmovable(true);
-        
-        // Create Bear
-        this.player = this.physics.add.sprite(width * 0.1, height * 1.25, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
-        this.player.isStriking = false;
-        this.player.isOnGround = true;
-
-        // Add camera movement
-        this.camera = this.cameras.main;
-        this.camera.startFollow(this.player);
-
-        // Set camera and world bounds
-        this.camera.setBounds(0,0, sceneWidth, sceneHeight);
-        this.physics.world.setBounds(0,0, sceneWidth, sceneHeight);
-
-        // add projectiles
-        this.ProjectileGroup = new ProjectileGroup(this);
-        this.physics.add.overlap(this.ProjectileGroup, crates, this.hitCrate, null, this);
-
-
-        // Add collider between bear and platforms and world bounds
-        this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(this.player, crates);
-        this.physics.add.collider(crates, platforms);
-        this.player.setCollideWorldBounds(true);
-
-
-        // player collision go to next scene
-        this.physics.add.collider(this.player, this.nextScene, () => {
-            console.log("Collision. this.scene.start(Scene2);");
-            this.camera.fadeOut(1000, 0, 0, 0);
-            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-                this.game.sound.stopAll();
-                this.scene.start("Scene2");
-            })
-        });
+        crates.create(1000, height+225, "crate").setImmovable(true);
+ 
+         
+         // Create Bear
+         this.player = this.physics.add.sprite(width * 0.2, height, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
+         this.player.isStriking = false;
+         this.player.isOnGround = true;
+ 
+         // Add camera movement
+         this.camera = this.cameras.main;
+         this.camera.startFollow(this.player);
+ 
+         // Set camera and world bounds
+         this.camera.setBounds(0,0, sceneWidth, sceneHeight);
+         this.physics.world.setBounds(0,0, sceneWidth, sceneHeight);
+ 
+         // add projectiles
+         this.ProjectileGroup = new ProjectileGroup(this);
+         this.physics.add.overlap(this.ProjectileGroup, crates, this.hitCrate, null, this);
+ 
+ 
+         // Add collider between bear and platforms and world bounds
+         this.physics.add.collider(this.player, platforms);
+         this.physics.add.collider(this.player, crates);
+         this.physics.add.collider(crates, platforms);
+         this.player.setCollideWorldBounds(true);
+ 
+ 
+         // player collision go to next scene
+         this.physics.add.collider(this.player, this.nextScene, () => {
+             console.log("Collision. this.scene.start(Scene2);");
+             this.camera.fadeOut(1000, 0, 0, 0);
+             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                 this.game.sound.stopAll();
+                 this.scene.start("Scene2");
+             })
+         });
     }
 
     hitCrate(projectile, crate){
@@ -287,7 +231,9 @@ class Scene1 extends Phaser.Scene {
         });
     }
 
-    
+
+
+
     update()
     {  
         // -------------------------------- PLAYER MOVEMENT ---------------------------------------
@@ -399,3 +345,4 @@ class Scene1 extends Phaser.Scene {
         }
     }
 }
+
