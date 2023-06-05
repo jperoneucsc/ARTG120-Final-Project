@@ -11,20 +11,21 @@ class Intro extends Phaser.Scene {
     preload(){
         this.load.image("background", "src/assets/YinMountainFull.png");
         this.load.image('playButton', "src/assets/playButton.png")
+        this.load.image('playButtonText', "src/assets/playButton2.png")
     }
 
     create() {
         this.cameras.main.fadeIn(2000);
 
-        var style = { font: "bold 72px Arial", fill: '0x000000', boundsAlignH: 'center', boundsAlignV: 'middle'};
+        let background = this.add.image(6,4.5, 'background').setInteractive();
+        background.setOrigin(0,0).setScale(.66);
+
+        var style = { font: "bold 92px Arial", fill: '0x000000', boundsAlignH: 'center', boundsAlignV: 'middle'};
         
         this.cameras.main.on('camerafadeincomplete', () => {
-            let text1 = this.add.text(400, 720/4, "PANDAMONIUM", style);
-            text1.setStroke('#FFFFFF', 16);
+            let text1 = this.add.text(640, 720/4, "PANDAMONIUM", style);
+            text1.setStroke('#FFFFFF', 16).setOrigin(.5,.5);
             text1.setShadow(2, 2, '#333333', 2, true, true);
-            let playButton = this.add.image(400, 720/2, 'playButton').setOrigin(0,0).setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
-                console.log('pressed');
-            })
             var tween1 = this.tweens.add({
                 targets: text1,
                 scale: {
@@ -34,20 +35,44 @@ class Intro extends Phaser.Scene {
                 ease: 'Linear',
                 duration: 1000
             })
-            var tween2 = this.tweens.add({
-                targets: playButton,
-                scale: {
-                    from: 0,
-                    to: 1,
-                },
-                ease: 'Linear',
-                duration: 1000
-            })
-            tween1.chain(tween2);
+            tween1.on('complete', () => {
+                this.playButton = this.add.image(640, 350, 'playButton').setOrigin(.5,.5).setInteractive();
+
+                this.playButton2 = this.add.image(640, 350, 'playButtonText').setOrigin(.5,.5).setInteractive().on(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, () => {
+                    this.cameras.main.fadeOut(1000, 0, 0, 0);
+                    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                        this.game.sound.stopAll();
+                        this.scene.start("Scene1");
+                    })
+                })
+                .on('pointerover', () => {
+                    this.playButton2.setScale(0.8);
+                })
+                
+                this.tweens.add({
+                    targets: this.playButton,
+                    scale: {
+                        from: 0,
+                        to: 1,
+                    },
+                    ease: 'Linear',
+                    duration: 1000
+                })
+                this.tweens.add({
+                    targets: this.playButton2,
+                    scale: {
+                        from: 0,
+                        to: 1,
+                    },
+                    ease: 'Linear',
+                    duration: 1000
+                })
+            });
+            background.on('pointerover', () => {
+                this.playButton2.setScale(1);
+            });
         })
 
-        let background = this.add.image(6,4.5, 'background');
-        background.setOrigin(0,0).setScale(.66);
         console.log('intro starting');
     }
 }
