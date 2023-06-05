@@ -33,12 +33,15 @@ class Scene2 extends Phaser.Scene {
         // load nextscene temp asset
         this.load.image("nextScene", "src/assets/nextScene.png");
 
+        // load crate asset
+        this.load.image("crate", "src/assets/crate.png")
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png");
         // load spikes
         this.load.image("spikes", "src/assets/spikes.png");
         // load platform
         this.load.image('platform', "src/assets/platform.png");
+        this.load.image('platform2', "src/assets/verticalPlatform.png");
     }
 
     create()
@@ -153,17 +156,24 @@ class Scene2 extends Phaser.Scene {
         //platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width*2, sceneHeight-30, "ground").setScale(1).setSize(1280,40); 
         //platforms.create(width*.95, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(800, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
-        platforms.create(1300, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
+        platforms.create(700, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
+        platforms.create(1350, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
 
         // layer 2
-        platforms.create(1700, 750, "platform").setScale(1).setSize(500,35);
+        platforms.create(1550, 750, "platform").setScale(1).setSize(500,35);
         // layer 3
         platforms.create(1400, 500, "platform").setScale(1).setSize(500,35);
         // layer 4
-        platforms.create(1100, 300, "platform").setScale(1).setSize(500,35);
+        platforms.create(1100, 275, "platform").setScale(1).setSize(500,35);
+        platforms.create(800, 275, "platform").setScale(1).setSize(500,35);
 
-        platforms.create(0, sceneHeight*.6, "platform").setScale(1).setSize(500,35); // end platform
+        platforms.create(-100, sceneHeight*.6, "platform").setScale(1).setSize(500,35); // end platform
+        platforms.create(-25, sceneHeight*.4, "platform").setScale(1).setSize(500,35);
+
+
+        const crates = this.physics.add.staticGroup();
+        crates.create(100,315, "crate").setImmovable(true);
+        crates.create(100,120, "crate").setImmovable(true);
         
 
 
@@ -174,7 +184,7 @@ class Scene2 extends Phaser.Scene {
         deathplatforms.create(0, 1100, "spikes").setScale(0.5).setSize(1920, 10);
 
         // next scene temp asset
-        this.nextScene = this.physics.add.sprite(200, 550, 'nextScene').setSize(20,20);
+        this.nextScene = this.physics.add.sprite(50, 550, 'nextScene').setSize(20,20);
         this.nextScene.body.setAllowGravity(false).setImmovable(true);
 
         // Create Bear
