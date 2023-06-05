@@ -18,6 +18,7 @@ class Intro extends Phaser.Scene {
     }
 
     create() {
+        this.game.sound.stopAll();
         this.cameras.main.fadeIn(2000);
 
         this.music = this.sound.add('endSceneMusic', {volume: 0.2});

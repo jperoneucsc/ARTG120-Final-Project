@@ -21,7 +21,7 @@ class Scene2 extends Phaser.Scene {
         this.load.image("backgroundYang3", "src/assets/YangMountainForeground2.png");
 
         // load music and sound effects
-        this.load.audio('secondSong', 'src/assets/audio/ScaryThingsModified.mp3')
+        this.load.audio('secondSong', 'src/assets/audio/ScaryThingsOriginal.mp3')
         this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
         this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
@@ -172,8 +172,10 @@ class Scene2 extends Phaser.Scene {
 
 
         const crates = this.physics.add.staticGroup();
-        crates.create(100,315, "crate").setImmovable(true);
-        crates.create(100,120, "crate").setImmovable(true);
+        crates.create(110,315, "crate").setImmovable(true);
+        crates.create(110,120, "crate").setImmovable(true);
+
+        this.physics.add.collider(this.player, crates);
         
 
 

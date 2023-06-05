@@ -95,7 +95,8 @@ class Scene1 extends Phaser.Scene {
 
     create()
     {
-        // console.log("Scene1 Starting");
+        this.game.sound.stopAll();
+        console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
         this.anims.create({
             key: 'projectile-flying',
