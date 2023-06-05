@@ -1,5 +1,4 @@
-// First scene
-// Light Panda tutorial level
+// TEST SCENE FOR PROTOTYPING MOVEMENT
 
 // Projectiles for Light Bear Group
 class Projectile extends Phaser.Physics.Arcade.Sprite {
@@ -69,6 +68,9 @@ class Scene1 extends Phaser.Scene {
         // Load ground
         this.load.image("ground", "src/assets/forestFloor.png");
 
+        // Load platform
+        this.load.image("platform", "src/assets/platform.png");
+
         // load crate asset
         this.load.image("crate", "src/assets/crate.png")
         // load projectile asset
@@ -93,7 +95,6 @@ class Scene1 extends Phaser.Scene {
 
     create()
     {
-        this.game.sound.stopAll();
         // console.log("Scene1 Starting");
         // Create animations ------------------------------------------------
         this.anims.create({
@@ -211,25 +212,31 @@ class Scene1 extends Phaser.Scene {
         const platforms = this.physics.add.staticGroup();
         platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width, sceneHeight, "ground").setScale(1).setSize(1280,40); 
-        platforms.create(250, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(1800, sceneHeight*.58, "ground").setScale(1).setSize(1280,40);
-        platforms.create(1400, sceneHeight*.76, "ground").setScale(1).setSize(1280,40);
+        platforms.create(width*.15, sceneHeight*.7, "ground").setScale(1).setSize(1280,40);
+
+        platforms.create(1300, sceneHeight*.8, "platform").setScale(1).setSize(500,35);
+        platforms.create(1700, sceneHeight*.6, "platform").setScale(1).setSize(500,35);
+        platforms.create(1100, sceneHeight*.4, "platform").setScale(1).setSize(500,35);
+        platforms.create(1700, sceneHeight*.2, "platform").setScale(1).setSize(500,35);
 
         // create crate group
 
         const crates = this.physics.add.staticGroup();
 
         // Add scene changer in the bottom right corner
-        this.nextScene = this.physics.add.sprite(100, 450, 'nextScene').setSize(20,20);
+        this.nextScene = this.physics.add.sprite(1700, sceneHeight*.1, 'nextScene').setSize(20,20);
         this.nextScene.body.setAllowGravity(false).setImmovable(true);
 
         // add crates
-        crates.create(1500,510, "crate").setImmovable(true);
-        crates.create(1500,320, "crate").setImmovable(true);
+        crates.create(600,925, "crate").setScale(1.25).setImmovable(true);
+        crates.create(900,925, "crate").setScale(1.25).setImmovable(true);
+        crates.create(300, 925, "crate").setImmovable(true);
 
+
+        crates.create(1700, sceneHeight*.1, "crate").setScale(0.9).setImmovable(true);
         
         // Create Bear
-        this.player = this.physics.add.sprite(width * 0.52, height * 0.5, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
+        this.player = this.physics.add.sprite(width * 0.1, height * 1.25, 'LightBear').setScale(0.27).setSize(200,490).play('player-idle');
         this.player.isStriking = false;
         this.player.isOnGround = true;
 
@@ -391,4 +398,3 @@ class Scene1 extends Phaser.Scene {
         }
     }
 }
-    
