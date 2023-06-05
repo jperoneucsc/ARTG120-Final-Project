@@ -3,6 +3,7 @@
 
 // Currently in prototype stage
 
+
 class Scene2 extends Phaser.Scene {
     constructor()
     {
@@ -21,7 +22,7 @@ class Scene2 extends Phaser.Scene {
         this.load.image("backgroundYang3", "src/assets/YangMountainForeground2.png");
 
         // load music and sound effects
-        this.load.audio('secondSong', 'src/assets/audio/ScaryThingsModified.mp3')
+        this.load.audio('secondSong', 'src/assets/audio/ScaryThingsOriginal.mp3')
         this.load.audio('walkAudio', 'src/assets/audio/Walk.mp3');
         this.load.audio('runAudio', 'src/assets/audio/Run.mp3');
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
@@ -156,24 +157,12 @@ class Scene2 extends Phaser.Scene {
         //platforms.create(width*.5, sceneHeight, "ground").setScale(1).setSize(1280,40);   // first floor
         platforms.create(width*2, sceneHeight-30, "ground").setScale(1).setSize(1280,40); 
         //platforms.create(width*.95, sceneHeight*.5, "ground").setScale(1).setSize(1280,40);
-        platforms.create(700, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
-        platforms.create(1350, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
+        platforms.create(500, sceneHeight*.7, "platform").setScale(1).setSize(500,35);
+        platforms.create(1200, sceneHeight*.9, "platform").setScale(1).setSize(500,35);
 
-        // layer 2
-        platforms.create(1550, 750, "platform").setScale(1).setSize(500,35);
-        // layer 3
-        platforms.create(1400, 500, "platform").setScale(1).setSize(500,35);
-        // layer 4
-        platforms.create(1100, 275, "platform").setScale(1).setSize(500,35);
-        platforms.create(800, 275, "platform").setScale(1).setSize(500,35);
 
         platforms.create(-100, sceneHeight*.6, "platform").setScale(1).setSize(500,35); // end platform
-        platforms.create(-25, sceneHeight*.4, "platform").setScale(1).setSize(500,35);
 
-
-        const crates = this.physics.add.staticGroup();
-        crates.create(100,315, "crate").setImmovable(true);
-        crates.create(100,120, "crate").setImmovable(true);
         
 
 
@@ -210,7 +199,7 @@ class Scene2 extends Phaser.Scene {
 
         // player collision go to next scene
         this.physics.add.collider(this.player, this.nextScene, () => {
-            this.scene.start("Scene1");
+            this.scene.start("Scene3");
         });
     }
 
