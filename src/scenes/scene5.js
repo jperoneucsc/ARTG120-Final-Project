@@ -21,10 +21,11 @@ class Scene5 extends Phaser.Scene {
     }
 
     create(){
+        this.game.sound.stopAll();
         this.music = this.sound.add('endSceneMusic', {volume: 0.2});
         this.music.loop = true;
         this.music.play();
-
+        console.log("Scene5 Starting");
 
         //create animation for the cutscene
         this.anims.create({
