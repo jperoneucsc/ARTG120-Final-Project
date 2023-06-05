@@ -27,7 +27,7 @@ class Scene2 extends Phaser.Scene {
         this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
         this.load.audio('wallBreakAudio', 'src/assets/audio/WallBreak.mp3');
         this.load.audio('jumpAudio', 'src/assets/audio/JumpSoundEffectRetro.mp3');
-        this.load.audio('strikeAudio', 'src/assets/audio/PalmStrikeSwing.mp3');
+        this.load.audio('dashAudio', 'src/assets/audio/Dash.mp3');
         this.load.audio('endSceneMusic', 'src/assets/audio/InTheRainAtDusk.mp3');
 
         // Load ground
@@ -113,7 +113,7 @@ class Scene2 extends Phaser.Scene {
         const sceneHeight = 1080;
 
         // --------------------------------- Instantiate sounds -----------------------------------------
-        this.secondSong = this.sound.add('secondSong', {volume: 0.1});
+        this.secondSong = this.sound.add('secondSong', {volume: 0.01});
         this.secondSong.loop = true;
         this.secondSong.play();
 
@@ -125,7 +125,7 @@ class Scene2 extends Phaser.Scene {
 
         this.jumpSound = this.sound.add('jumpAudio', {volume : 0.05, detune: -400});
 
-        this.strikeSound = this.sound.add('strikeAudio', {volume : 0.05});
+        this.dashSound = this.sound.add('dashAudio', {volume : 0.05});
 
         this.wallBreakSound = this.sound.add('wallBreakAudio', {volume : 0.1});
         
@@ -153,6 +153,7 @@ class Scene2 extends Phaser.Scene {
 
         // Create Bear
         this.player = this.physics.add.sprite(sceneWidth * 0.6, sceneHeight * 0.9, 'DarkBear').setScale(0.27).setSize(200,490).play('dark-idle');
+        this.player.isDashing = false;
 
         // Add camera movement
         this.camera = this.cameras.main;
@@ -171,22 +172,41 @@ class Scene2 extends Phaser.Scene {
             console.log("Collision. this.scene.start(Scene2);");
             this.camera.fadeOut(1000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.secondSong.stop();
                 this.scene.start("Scene1");
             })
         });
     }
 
+    DashAnimation(){
+        this.player.anims.play("dark-dash");
+        this.camera.shake(100, 0.001);
+        this.player.isDashing = true;
+        this.dashSound.play();
+        this.player.on('animationcomplete', () => {
+            this.player.isDashing = false;
+        })
+    }
+
+
     update()
     {  
+        
         // -------------------------------- PLAYER MOVEMENT ---------------------------------------
         const cursors = this.input.keyboard.createCursorKeys();
         const keys = this.input.keyboard.addKeys("W,A,S,D,E,SPACE");
 
+        // Checkif player is touching the ground
+        if(this.player.body.touching.down){
+            this.player.isOnGround = true;
+        }else this.player.isOnGround = false;
+
         // Check is player is able to jump
-        if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.body.touching.down){
+        if((!cursors.up.isDown || !keys.W.isDown || !keys.SPACE.isDown) && this.player.isOnGround){
             this.player.allowedToDoubleJump = false;
         }
 
+    
 
         // Check if player is pressing left or right, with shift or not
         if (cursors.left.isDown || keys.A.isDown){
@@ -195,9 +215,9 @@ class Scene2 extends Phaser.Scene {
                     this.player.flipX = false;
                 }
                 this.player.setVelocityX(-270);
-                if(this.player.body.touching.down){this.player.anims.play("dark-run", true);}
-                if(Phaser.Input.Keyboard.JustDown(keys.E)){
-                    this.player.anims.play("dark-dash");
+                if(this.player.isOnGround && this.player.isDashing == false){this.player.anims.play("dark-run", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isDashing == false)){
+                    this.DashAnimation();
                     this.player.setVelocityX(-10070);
                 }
             }else{      // player is walking
@@ -205,9 +225,9 @@ class Scene2 extends Phaser.Scene {
                     this.player.flipX = false;
                 }
                 this.player.setVelocityX(-160);
-                if(this.player.body.touching.down){this.player.anims.play("dark-walk", true);}
-                if(Phaser.Input.Keyboard.JustDown(keys.E)){
-                    this.player.anims.play("dark-dash");
+                if(this.player.isOnGround && this.player.isDashing == false){this.player.anims.play("dark-walk", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isDashing == false)){
+                    this.DashAnimation();
                     this.player.setVelocityX(-10070);
                 }
             }
@@ -218,9 +238,9 @@ class Scene2 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(270);
-                if(this.player.body.touching.down){this.player.anims.play("dark-run", true);}
-                if(Phaser.Input.Keyboard.JustDown(keys.E)){
-                    this.player.anims.play("dark-dash");
+                if(this.player.isOnGround && this.player.isDashing == false){this.player.anims.play("dark-run", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isDashing == false)){
+                    this.DashAnimation();
                     this.player.setVelocityX(10070);
                 }
             }else{      // player is walking
@@ -228,30 +248,56 @@ class Scene2 extends Phaser.Scene {
                     this.player.flipX = true;
                 }
                 this.player.setVelocityX(160);
-                if(this.player.body.touching.down){this.player.anims.play("dark-walk", true);}
-                if(Phaser.Input.Keyboard.JustDown(keys.E)){
-                    this.player.anims.play("dark-dash");
+                if(this.player.isOnGround && this.player.isDashing == false){this.player.anims.play("dark-walk", true);}
+                if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isDashing == false)){
+                    this.DashAnimation();
                     this.player.setVelocityX(10070);
                 }
             }
-        }else{      // no key is being pressed
+        }
+        // no key is being pressed
+        if(cursors.left.isUp && keys.A.isUp && cursors.right.isUp && keys.D.isUp && cursors.up.isUp && keys.W.isUp && keys.SPACE.isUp && this.player.isDashing == false){
+            this.player.anims.play('dark-idle', true);
             this.player.setVelocityX(0);
-            if(this.player.body.velocity.y > 100){
+            if(this.player.body.velocity.y > 0){
                 this.player.anims.play('dark-inair');
             }
-            this.player.anims.play("dark-idle", true);
         }
+
+        // play sound effects
+        this.player.on('animationstart', () => {
+            if (this.player.anims.currentAnim.key == 'dark-walk'){
+                this.walkSound.play();
+            }
+            if (this.player.anims.currentAnim.key == 'dark-run'){
+                this.runSound.play();
+            }
+        });
+        this.player.on('animationstop', () => {
+            if (this.player.anims.currentAnim.key == 'dark-walk'){
+                this.time.delayedCall(200, () => {
+                    this.walkSound.stop();
+                })
+            }
+            if (this.player.anims.currentAnim.key == 'dark-run'){
+                this.time.delayedCall(200, () => {
+                    this.runSound.stop();
+                })
+            }
+        });
 
         // Check if player is trying to jump
         if(Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keys.W) || Phaser.Input.Keyboard.JustDown(keys.SPACE)){
-            if(this.player.body.touching.down){
+            if(this.player.isOnGround){
                 this.player.setVelocityY(-700);
+                this.jumpSound.play();
                 this.player.anims.play("dark-jump");
                 this.player.allowedToDoubleJump = true;
             }
             else {
                 if(this.player.allowedToDoubleJump == true){
                     this.player.allowedToDoubleJump = false;
+                    this.jumpSound.play();
                     this.player.setVelocityY(-800);
                 }
             }

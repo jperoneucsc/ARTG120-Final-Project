@@ -296,8 +296,6 @@ class Scene1 extends Phaser.Scene {
 
         // Check if player is trying to strike
         if(Phaser.Input.Keyboard.JustDown(keys.E) && (this.player.isStriking == false)){
-            // currently animations will interfere with eachother and not play properly
-            // until this is fixed the strike animation will not workeeeweeea 
             this.player.anims.play("player-strike");
             this.camera.shake(100, 0.001);
             this.player.isStriking = true;
@@ -308,8 +306,6 @@ class Scene1 extends Phaser.Scene {
             this.player.on('animationcomplete', () => {
                 this.player.isStriking = false;
             })
-            // this.scene.start("Scene2"); // for scene debugging pressing e will switch scenes
-            // Insert code for breaking walls and stuff here
         }
 
         // Check if player is pressing left or right, with shift or not
